@@ -15,7 +15,6 @@ module.exports = {
     img: 'src',
     image: 'xlink:href'
   },
-  // postcss:[require('postcss-px2rem')({'remUnit':75})]
   postcss:[ 
     require('postcss-plugin-px2rem')({
       rootValue: 75, // 这里对应的是750的设计图尺寸
