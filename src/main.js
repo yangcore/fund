@@ -2,17 +2,16 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 require('es6-promise').polyfill();//兼容低版本浏览器
 import Vue from 'vue'
-// import vuet from './vuet/vuet'
 import App from './App'
-import router from './router'
+import router from './router' 
+import store from './vuex/vuex'  //vuex
 Vue.config.productionTip = true
 import FastClick from 'fastclick'
 FastClick.attach(document.body)
-import { AjaxPlugin, LoadingPlugin, AlertPlugin } from 'vux'
+import { AjaxPlugin, LoadingPlugin, AlertPlugin  } from 'vux'
 Vue.use(AjaxPlugin);
 Vue.use(LoadingPlugin);
 Vue.use(AlertPlugin);
-
 const baseUrl = "https://cnodejs.org/api/v1";
 const loginTimeOutErrorCode = 'login_timeout_error';
 
@@ -68,7 +67,7 @@ Vue.prototype.post = function (opts) {
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  // vuet,
+  store,
   router,
   template: '<App/>',
   components: { App }

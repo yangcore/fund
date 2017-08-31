@@ -73,7 +73,7 @@ module.exports = vuxLoader.merge(originalConfig , {
   {
     name: 'after-less-parser',
     fn: function (source) {
-      console.info(this.resourcePath);
+      // console.info(this.resourcePath);
       if (this.resourcePath.replace(/\\/g, '/').indexOf('vux/src/components') > -1) {
         source = source.replace(/px/g, 'PX')
       }
@@ -99,6 +99,10 @@ module.exports = vuxLoader.merge(originalConfig , {
   },
   {
     name: 'duplicate-style'
+  },
+  {
+    name: 'less-theme',
+    path: 'src/assets/css/theme.less'
   }
 ]
 })

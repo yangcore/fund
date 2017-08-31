@@ -1,36 +1,74 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../vuex/vuex'
 Vue.use(Router)
-
-
-export default new Router({
+let router=new Router({
   routes: [
     {
       path: '/',
-      name: 'All',
-      components: {All:resolve => require([ '@/components/All'], resolve)},
-      meta: {
-        keepAlive: true
-    }
+      component: resolve => require([ '@/pages/index'], resolve),
     },
     {
-      path: '/Essence',
-      name: 'Essence',
-      components: {Essence:resolve => require([ '@/components/Essence'], resolve)}
+      path: '/fundPortfolio',
+      component: resolve => require([ '@/pages/fundPortfolio'], resolve)
     },
     {
-      path: '/Share',
-      name: 'Share',
-      component: resolve => require([ '@/components/Share'], resolve)
+      path:"/fundPortfolio/search",
+      component: resolve => require([ '@/pages/search'], resolve)
     },
     {
-      path: '/Questions',
-      name: 'Questions',
-      component: resolve => require([ '@/components/Questions'], resolve)
-    },{
-      path: '/Recruitment',
-      name: 'Recruitment',
-      component: resolve => require([ '@/components/Recruitment'], resolve)
-    }
+      path:"/myAccount",
+      component: resolve => require([ '@/pages/myAccount'], resolve)
+    },
+    {
+      path:"/myAccount/fundTotalAssets",
+      component: resolve => require([ '@/pages/fundTotalAssets'], resolve)
+    },
+    {
+      path:"/myAccount/caifuFund",
+      component: resolve => require([ '@/pages/caifuFund'], resolve)
+    },
+    {
+      path:"/myAccount/myOrder",
+      component: resolve => require([ '@/pages/myOrder'], resolve)
+    }         
   ]
 })
+
+// simple history management
+const history = window.sessionStorage
+history.clear()
+let historyCount = history.getItem('count') * 1 || 0
+history.setItem('/', 0)
+
+router.beforeEach(function (to, from, next) {
+  store.commit('updateLoadingStatus', {isLoading: true})
+  
+  const toIndex = history.getItem(to.path)
+  const fromIndex = history.getItem(from.path)
+  if (toIndex) {
+    if (!fromIndex || parseInt(toIndex, 10) > parseInt(fromIndex, 10) || (toIndex === '0' && fromIndex === '0')) {
+      store.commit('updateDirection', {direction: 'forward'})
+    } else {
+      store.commit('updateDirection', {direction: 'reverse'})
+    }
+  } else {
+    ++historyCount
+    history.setItem('count', historyCount)
+    to.path !== '/' && history.setItem(to.path, historyCount)
+    store.commit('updateDirection', {direction: 'forward'})
+  }
+  //TODO
+  if (/\/http/.test(to.path)) {
+    let url = to.path.split('http')[1]
+    window.location.href = `http${url}`
+  } else {
+    next()
+  }
+})
+
+router.afterEach(function (to) {
+  store.commit('updateLoadingStatus', {isLoading: false})
+})
+
+export default router;

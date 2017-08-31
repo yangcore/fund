@@ -10,11 +10,11 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "echarts": "^3.7.0",
     "es6-promise": "^4.1.1",
     "vue": "^2.3.3",
     "vue-router": "^2.6.0",
-    "vuet": "^1.0.1",
-    "vuet-scroll": "0.0.6",
+    "vuex": "^2.4.0",
     "vux": "^2.5.8"
   },
   "devDependencies": {
@@ -56,7 +56,8 @@
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.18.0",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "yaml-loader": "^0.5.0"
   },
   "engines": {
     "node": ">= 4.0.0",
