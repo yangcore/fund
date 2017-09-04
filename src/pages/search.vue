@@ -4,7 +4,8 @@
             <a slot="right" @click="$router.go(-1)">关闭</a>
         </x-header>
         <div class="search">
-            <input type="text" placeholder="试试输入名称、代码" id="search"  autofocus>
+            <i class="iconfont close" v-show="value==''?false:true" @click="value=''">&#xe6da;</i>
+            <input type="text" placeholder="试试输入名称、代码" id="search" v-model="value">
             <span>搜索</span>
         </div>
     </div>
@@ -15,6 +16,7 @@ export default {
     name: 'search',
     data() {
         return {
+            value:""
         }
     },
     computed: {
@@ -24,7 +26,9 @@ export default {
         XHeader
     },
     mounted() {
+        setTimeout(()=>{
         document.getElementById('search').focus();
+        },500)
     },
     methods: {
 
@@ -34,7 +38,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
-
+.search{
+    position: relative;
+}
 .search input {
     float: left;
     display: block;
@@ -54,6 +60,12 @@ line-height: 60px;
 font-size: 30px;
 margin-left: 30px;
 color: #4a80ff;
+}
+.close{
+    position: absolute;
+    right: 150px;
+    top: -6px;
+    font-size: 40px;
 }
 </style>
 

@@ -1,10 +1,10 @@
 <template>
     <div class="fundPortfolio">
-        <x-header :left-options="{backText: ''}">set empty back text
+        <x-header :left-options="{backText: '',preventGoBack:true}" @on-click-back="$router.push('/index')">
               <router-link to="/myAccount" slot="right"> 我的账户 </router-link>
         </x-header>
         <div class="search">
-            <input type="text" placeholder="试试输入名称、代码" @click="goSearch">
+            <input type="text" placeholder="试试输入名称、代码" @click="goSearch" readonly>
         </div>
         <div class="img1">
         </div>
@@ -33,6 +33,7 @@
             </flexbox-item>
         </flexbox>
         <div class="fundInfo">
+            <router-link to="/fundPortfolio/fundDetails">
             <flexbox :gutter="0">
                 <flexbox-item :span="2/6">
                     <div class="flex-demo2" style="line-height:0;">
@@ -48,10 +49,11 @@
                 </flexbox-item>
                 <flexbox-item :span="1.4/6">
                     <div class="flex-demo2">
-                        <a href="javascropt:;" class="buy">购买</a>
+                        <router-link class="buy" to="/fundPortfolio/apply">购买</router-link>
                     </div>
                 </flexbox-item>
             </flexbox>
+            </router-link>
         </div>
         <p class="uptime"> 数据更新日期：2017.7.17</p>
 
@@ -59,9 +61,12 @@
         <div class="_Label">
             <flexbox :gutter="0">
                 <flexbox-item>
+                <router-link to="/fundPortfolio/tagInfo">
                     <div class="flex-demo3">
                         <span>苹果概念</span>
                     </div>
+                </router-link>
+                    
                 </flexbox-item>
                 <flexbox-item>
                     <div class="flex-demo3">

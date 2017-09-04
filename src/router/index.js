@@ -6,11 +6,31 @@ let router=new Router({
   routes: [
     {
       path: '/',
+      component: resolve => require([ '@/pages/loginAfter'], resolve),
+    },
+    {
+      path: '/index',
       component: resolve => require([ '@/pages/index'], resolve),
     },
     {
       path: '/fundPortfolio',
       component: resolve => require([ '@/pages/fundPortfolio'], resolve)
+    },
+    {
+      path: '/fundPortfolio/tagInfo',
+      component: resolve => require([ '@/pages/tagInfo'], resolve)
+    },
+    {
+      path: '/fundPortfolio/apply',
+      component: resolve => require([ '@/pages/apply'], resolve)
+    },
+    {
+      path: '/fundPortfolio/redeem',  
+      component: resolve => require([ '@/pages/redeem'], resolve)
+    },
+    {
+      path: '/fundPortfolio/fundDetails',  
+      component: resolve => require([ '@/pages/fundDetails'], resolve)
     },
     {
       path:"/fundPortfolio/search",

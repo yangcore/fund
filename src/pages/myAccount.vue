@@ -78,13 +78,7 @@
                 </cell>
             </group>
         </div>
-        <div class="bottom-box">
-            <img src="https://cdn.paicaifu.com/webapp/image/inapp/fund/code.jpg">
-            <p>本基金模拟活动为虚拟投资活动
-                <br><span>拍金币</span>为虚拟货币
-                <br> 个人真实财富管理请移步拍财富APP
-            </p>
-        </div>
+       <caifuBottom></caifuBottom>
     </div>
 </template>
 <script>
@@ -93,6 +87,7 @@ import ymask from '../components/Mask'
 import tool from "../tool/tool"
 import lists from '../components/lists'//排行榜组件
 import pie from '../components/pie' //饼图
+import caifuBottom from '../components/caifuBottom'
 export default {
     name: 'myAccount',
     data() {
@@ -142,7 +137,8 @@ export default {
         Group,
         Cell,
         ymask,
-        lists
+        lists,
+        caifuBottom
     },
     mounted() {
         this.chartInit();

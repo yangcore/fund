@@ -1,7 +1,11 @@
 <template>
         <div class="header" :style="headerstyle">
             <i class="iconfont" :style="fontstyle" @click="$router.go(-1)">&#xe60e;</i>
-            <div><span :style="fontstyle">{{title}}</span></div>
+            <div v-if="title">
+                <span :style="fontstyle" >{{title}}</span>
+            </div>
+            <slot name="header"></slot>
+            <slot name="right" class="right"></slot>
         </div>
 </template>
 <script>

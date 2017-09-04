@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <loading v-model="isLoading"></loading>
-    <!-- <router-view></router-view> -->
      <transition 
      :name="'vux-pop-' + (direction === 'forward' ? 'in' : 'out')">
           <router-view></router-view>
@@ -48,6 +47,7 @@ export default {
 @import '~vux/src/styles/1px.less';
 @import './assets/app.less';
 @import '~vux/src/styles/tap.less';
+
 .weui-search-bar:before {
   border: none !important;
 }
@@ -96,5 +96,14 @@ export default {
 .vux-pop-in-leave-active {
   opacity: 0;
   transform: translate3d(-100%, 0, 0);
+}
+a{
+  color: black;
+}
+._36cca4{
+  color: #36cca4;
+}
+._ff5255{
+  color: #ff5255;
 }
 </style>
