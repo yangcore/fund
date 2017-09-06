@@ -5,8 +5,8 @@
             <!-- 总资产 -->
             <ul class="fund_list">
                 <li>总资产</li>
-                <li>673.15</li>
-                <li>最新净值日期：2017.8.17</li>
+                <li v-cloak>{{tool.fmoney(fundInfo.fundAmount,2)}}</li>
+                <li v-cloak>最新净值日期：{{fundInfo.buildDate}}</li>
             </ul>
             <div class="info">
                 <div class="hr hr1"></div>
@@ -16,21 +16,21 @@
                         <div class="flex-demo">
                             <span>基金总市值</span>
                             <br>
-                            <span>562.30</span>
+                            <span v-cloak>{{tool.fmoney(fundInfo.marketValueAmount,2)}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>基金未确认金额</span>
                             <br>
-                            <span>562.30</span>
+                            <span v-cloak>{{tool.fmoney(fundInfo.unSubmitAmount,2)}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>基金总收益</span>
                             <br>
-                            <span>562.30</span>
+                            <span v-cloak>{{tool.fmoney(fundInfo.fundAgainst,2)}}</span>
                         </div>
                     </flexbox-item>
                 </flexbox>
@@ -38,33 +38,38 @@
         </div>
         <p class="tips">*本活动所有计价单位均为拍财富虚拟货币拍金币</p>
 
-        <div class="card">
+        <div class="card" v-for="list in fundList" :key="list.id" v-cloak>
             <h1>
-                <span>易方达消费行业 110022</span>
+                <span>{{list.fundName}} {{list.fundCode}}</span>
                 <div>
-                    <a href="javascript:;" class="redeem">赎回</a>
-                    <a href="javascript:;" class="buy">购买</a>
+                    <router-link :to="{path:'/fundPortfolio/redeem',query:{code:list.fundCode,name:list.fundName,type:list.fundType}}" class="redeem">赎回</router-link>
+                     <router-link class="buy" :to="{path:'/fundPortfolio/apply',query:{code:list.fundCode,name:list.fundName,type:list.fundType}}">购买</router-link>
                 </div>
             </h1>
             <div style="background:white">
                 <flexbox>
                     <flexbox-item>
                         <div class="flex-demo black">
-                            <span>562.30</span>
+                            <span>{{tool.fmoney(list.fundMarketValue,2)}}</span>
                             <br>
                             <span>最新市值</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
-                        <div class="flex-demo black">
-                            <span>2332</span>
+                        <div class="flex-demo black" v-if="parseFloat(list.fundNetValue)!==0 && list.fundType!=='1005'">
+                            <span>{{tool.fmoney(list.fundNetValue,2)}} </span>
                             <br>
                             <span>最新净值</span>
+                        </div>
+                        <div class="flex-demo black" v-if="parseFloat(list.thousand)!==0&& list.fundType=='1005'">
+                            <span>{{tool.fmoney(list.thousand,2)}} </span>
+                            <br>
+                            <span>万份收益</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo black">
-                            <span>562.30</span>
+                            <span>{{tool.fmoney(list.fundInvestAmount,2)}}</span>
                             <br>
                             <span>持仓份额</span>
                         </div>
@@ -73,77 +78,23 @@
                 <flexbox>
                     <flexbox-item>
                         <div class="flex-demo black">
-                            <span>562.30</span>
+                            <span :class="colorType(list.yestardayAgainst)">{{tool.fmoney(list.yestardayAgainst,2)}}</span>
                             <br>
-                            <span>最新市值</span>
+                            <span>昨日收益</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo black">
-                            <span>2332</span>
+                            <span :class="colorType(list.AgainstAmount)">{{tool.fmoney(list.AgainstAmount,2)}}</span>
                             <br>
-                            <span>最新净值</span>
+                            <span>总收益</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo black">
-                           <i class="iconfont"  style="color:#b3b3b3">&#xe752;</i>
-                        </div>
-                    </flexbox-item>
-                </flexbox>
-            </div>
-        </div>
-
-           <div class="card">
-            <h1>
-                <span>易方达消费行业 110022</span>
-                <div>
-                    <a href="javascript:;" class="redeem">赎回</a>
-                    <a href="javascript:;" class="buy">购买</a>
-                </div>
-            </h1>
-            <div style="background:white">
-                <flexbox>
-                    <flexbox-item>
-                        <div class="flex-demo black">
-                            <span>562.30</span>
-                            <br>
-                            <span>最新市值</span>
-                        </div>
-                    </flexbox-item>
-                    <flexbox-item>
-                        <div class="flex-demo black">
-                            <span>2332</span>
-                            <br>
-                            <span>最新净值</span>
-                        </div>
-                    </flexbox-item>
-                    <flexbox-item>
-                        <div class="flex-demo black">
-                            <span>562.30</span>
-                            <br>
-                            <span>持仓份额</span>
-                        </div>
-                    </flexbox-item>
-                </flexbox>
-                <flexbox>
-                    <flexbox-item>
-                        <div class="flex-demo black">
-                            <span>562.30</span>
-                            <br>
-                            <span>最新市值</span>
-                        </div>
-                    </flexbox-item>
-                    <flexbox-item>
-                        <div class="flex-demo black">
-                            <span>2332</span>
-                            <br>
-                            <span>最新净值</span>
-                        </div>
-                    </flexbox-item>
-                    <flexbox-item>
-                        <div class="flex-demo black">
-                           <i class="iconfont" style="color:#b3b3b3">&#xe752;</i>
+                            <router-link :to="{path:'/fundPortfolio/fundDetails',query:{code:list.fundCode,name:list.fundName,type:list.fundType}}">
+                                <i class="iconfont"  style="color:#b3b3b3">&#xe752;</i>
+                            </router-link>
                         </div>
                     </flexbox-item>
                 </flexbox>
@@ -158,6 +109,14 @@ export default {
     name: 'fundTotalAssets',
     data() {
         return {
+            fundInfo:{
+                fundAmount:0,
+                fundAgainst:0,
+                buildDate:'',
+                unSubmitAmount:0,
+                marketValueAmount:0
+            },
+            fundList:[]
         }
     },
     computed: {
@@ -169,10 +128,39 @@ export default {
         FlexboxItem
     },
     mounted() {
-
+        this.getfundInfo();
+        this.getfundList();
     },
     methods: {
-
+        colorType(e){
+            if(e>=0){
+                return "_ff5255"
+            }else{
+                 return "_36cca4"
+            }
+        },
+        getfundInfo(){
+            let _this = this;
+            this.post({
+                url: "/fundUser/fundInfo/v1.0",
+                success: function(e) {
+                    if (e.code == "0000") {
+                       _this.fundInfo=e.result.fundInfo;
+                    }
+                }
+            })
+        },
+        getfundList(){
+             let _this = this;
+            this.post({
+                url: "/fundUser/fundDetail/v1.0",
+                success: function(e) {
+                    if (e.code == "0000") {
+                       _this.fundList=e.result.list;
+                    }
+                }
+            })
+        }
     }
 }
 </script>

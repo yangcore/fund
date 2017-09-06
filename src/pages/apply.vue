@@ -4,51 +4,60 @@
             <span slot="default" style="color:black">申购</span>
         </x-header>
         <div class="apply_box">
-            <router-link to="/fundPortfolio/fundDetails">
-                <h1>易方达消费行业 110022
+            <router-link :to="{path:'/fundPortfolio/fundDetails',query:{code:$route.query.code,name:$route.query.name,type:$route.query.type}}">
+                <h1>{{$route.query.name}} {{$route.query.code}}
                     <i class="iconfont">&#xe752;</i>
                 </h1>
             </router-link>
             <div class="balance">
                 <span>可用余额</span>
-                <input type="number" value="110022" readonly>
+                <input type="number" v-model="fvaBalance" readonly>
                 <span>(拍金币)</span>
             </div>
             <div class="balance money">
-                <span>投资金额</span>
-                 <input type="number" value="1102">
-                <span>(拍金币)</span>
+                <span style="float:left">投资金额</span>
+                <group style="float:left">
+                    <x-number :width="widthinput" v-model="amount" style="float:left" :step="10000" :min='0' :max='1000000'></x-number>
+                </group>
+                <!-- <input type="number" v-model="amount"> -->
+                <span style="float:right">(拍金币)</span>
             </div>
         </div>
-        <p class="buy">购买</p>
+        <p :class="buyBackground" @click="apply">{{btnMsg}}</p>
         <p class="tips">
-            <span>温馨提示:</span>交易日15：00前赎回，下一交易日确认金额</p>
+            <span>温馨提示:</span>交易日15：00前申购，下一交易日确认金额</p>
         <ymask :maskShow="maskShow"></ymask>
         <div class="alert" v-show="maskShow">
             <p>订单提交成功，交易确认中</p>
             <div class="alert_info">
-                申购产品：易方达消费行业
-                <br> 申购金额：<span style="color:#4a80ff">100,000</span>
-                <br> 预计确认日期：2017.7.28
+                申购产品：{{applyResult.fundName}}
+                <br> 申购金额：
+                <span style="color:#4a80ff">{{ tool.fmoney(applyResult.amount,2)}}</span>
+                <br> 预计确认日期：{{applyResult.verifyDate}}
             </div>
             <div class="bottom_btn">
-                <span>继续购买</span>
+                <span @click="maskShow=!maskShow,amount=0">继续购买</span>
                 <span @click="$router.go(-1)">返回</span>
-                <span>我的账户</span>
+                <span @click="$router.push('/myAccount')">我的账户</span>
             </div>
         </div>
 
     </div>
 </template>
 <script>
-import { XHeader } from 'vux'
+import { XHeader, XNumber, Group } from 'vux'
 import ymask from '../components/Mask'
 export default {
     name: 'apply',
     data() {
         return {
-            value: "",
-            maskShow: false
+            maskShow: false,
+            amount: 0,//订单金额
+            fvaBalance: '',//可用余额
+            widthinput: "70px",
+            btnMsg: "购买",
+            applyResult: {},
+            buyBackground: 'buy2'
         }
     },
     computed: {
@@ -56,13 +65,67 @@ export default {
     },
     components: {
         XHeader,
-        ymask
+        ymask,
+        XNumber,
+        Group
     },
     mounted() {
-
+        this.applyInfo();
     },
     methods: {
-
+        applyInfo(fundCode) {
+            let _this = this;
+            this.post({
+                url: "/fundTrans/queryAcctMsg/v1.0",
+                success: function(e) {
+                    if (e.code == "0000") {
+                        _this.fvaBalance = e.result.acctMsg.fvaBalance;
+                    }
+                }
+            })
+        },
+        apply() {
+            let _this = this;
+            if (this.amount == 0 || this.amount > this.fvaBalance) {
+                return;
+            }
+            this.post({
+                url: "/fundTrans/buy/v1.0",
+                data: {
+                    fundCode: _this.$route.query.code,
+                    amount: _this.amount
+                },
+                success: function(e) {
+                    if (e.code == "0000") {
+                        let result = e.result;
+                        _this.applyResult = result;
+                        _this.amount=0;
+                        _this.fvaBalance = _this.fvaBalance - result.amount;
+                        _this.maskShow = true;
+                    } else if (e.code == "1002" || e.code == "1005" || e.code == '1006' || e.code == '1007' ||e.code == '1008') {
+                        _this.$vux.alert.show({
+                            title: '提示',
+                            content: e.msg
+                        })
+                    }
+                }
+            })
+        }
+    },
+    watch: {
+        amount: function(n, o) {
+            if (this.amount !== 0) {
+                this.buyBackground = 'buy1';
+            } else {
+                this.buyBackground = 'buy2';
+            }
+            if (n > this.fvaBalance) {
+                this.btnMsg = "余额不足";
+                this.buyBackground = 'buy2';
+            } else {
+                this.btnMsg = "购买"
+            }
+        }
     }
 }
 </script>
@@ -86,6 +149,15 @@ export default {
 .balance {
     padding: 25px 0 25px 30px;
     border-bottom: 1PX solid #d8d8d8;
+    overflow: hidden;
+}
+
+.balance .weui-cell:before {
+    border: none;
+}
+
+.balance.money .weui-cell {
+    padding: 0 0 0 50px;
 }
 
 .balance span:nth-child(1) {
@@ -107,11 +179,23 @@ export default {
     margin-right: 40px;
 }
 
-.buy {
+.buy1 {
     width: 90%;
     height: 80px;
     line-height: 80px;
     background: #4a80ff;
+    text-align: center;
+    color: white;
+    margin: 0 auto;
+    border-radius: 3Px;
+    margin-top: 60px;
+}
+
+.buy2 {
+    width: 90%;
+    height: 80px;
+    line-height: 80px;
+    background: #888;
     text-align: center;
     color: white;
     margin: 0 auto;
@@ -145,21 +229,24 @@ export default {
     text-align: center;
 }
 
-.alert >p{
+.alert>p {
     font-size: 30px;
     color: #333333;
     padding: 60px 0 40px 0;
     line-height: 20px;
 }
-.alert_info{
+
+.alert_info {
     font-size: 30px;
     font-weight: 600;
-     line-height: 46px;
+    line-height: 46px;
 }
-.bottom_btn{
+
+.bottom_btn {
     padding-top: 30px;
 }
-.bottom_btn span{
+
+.bottom_btn span {
     display: inline-block;
     width: 156px;
     height: 60px;
@@ -169,8 +256,9 @@ export default {
     color: #4a80ff;
     margin: 10px;
 }
-.bottom_btn span:nth-child(3){
-    background:  #4a80ff;
+
+.bottom_btn span:nth-child(3) {
+    background: #4a80ff;
     color: white;
 }
 </style>

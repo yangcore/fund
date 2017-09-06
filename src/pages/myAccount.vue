@@ -1,14 +1,17 @@
 <template>
     <div class="myAccount">
-        <div @click="maskShow=!maskShow"><ymask :maskShow="maskShow" ></ymask></div>
-        <div class="list_box"  v-show="maskShow">
+        <div @click="maskShow=!maskShow">
+            <ymask :maskShow="maskShow"></ymask>
+        </div>
+        <div class="list_box" v-show="maskShow">
             <h1 class="title"></h1>
-            <lists :items="items"  class="lists">
+            <lists :items="items" class="lists">
             </lists>
-         </div>
-        <x-header :left-options="{backText: ''}" >
+        </div>
+        <x-header :left-options="{backText: ''}">
+            <a slot="right" @click="maskShow=!maskShow" v-if="$route.query.beforepage=='/fundPortfolio'">排行榜</a>
         </x-header>
-        <x-header :left-options="{showBack: false}">
+        <x-header :left-options="{showBack: false}" v-if="$route.query.beforepage!=='/fundPortfolio'">
             <router-link to="/fundPortfolio" slot="left"> 基金综合页 </router-link>
             <a slot="right" @click="maskShow=!maskShow">排行榜</a>
         </x-header>
@@ -16,8 +19,7 @@
             <div id="chart">
             </div>
             <p class="info" :class="[obj.percent=='&nbsp;&nbsp;'?top1:top2]">
-                <span>
-                    {{obj.name+"占比"}}
+                <span v-html="obj.name+'占比'">
                 </span>
                 <br>
                 <span v-html="obj.percent">
@@ -25,30 +27,30 @@
             </p>
         </div>
         <div style="background:white">
-            <p class="totalAssets">{{ totalAssets}}</p>
+            <p class="totalAssets">{{ amount}}</p>
             <p>总资产</p>
             <div class="center-info">
                 <div>
                     <p>
-                        <i class="iconfont">&#xe623;</i>563.3</p>
+                        <i class="iconfont">&#xe623;</i>{{totalAgainst}}</p>
                     <p>
                         <i class="iconfont">&nbsp;&nbsp;&nbsp;&nbsp;</i>总收益(拍金币)</p>
                 </div>
                 <div>
                     <p>
-                        <i class="iconfont">&#xe6b3;</i>563.3</p>
+                        <i class="iconfont">&#xe6b3;</i>{{canUseAmount}}</p>
                     <p>
                         <i class="iconfont">&nbsp;&nbsp;&nbsp;&nbsp;</i>可用余额(拍金币)</p>
                 </div>
                 <div>
                     <p>
-                        <i class="iconfont">&#xe611;</i>56%</p>
+                        <i class="iconfont">&#xe611;</i>{{profitRatio}}%</p>
                     <p>
                         <i class="iconfont">&nbsp;&nbsp;&nbsp;&nbsp;</i>盈亏比</p>
                 </div>
                 <div>
                     <p>
-                        <i class="iconfont">&#xe600;</i>2017.8.24</p>
+                        <i class="iconfont">&#xe600;</i>{{buildDate}}</p>
                     <p>
                         <i class="iconfont">&nbsp;&nbsp;&nbsp;&nbsp;</i>组合创立日期</p>
                 </div>
@@ -78,57 +80,41 @@
                 </cell>
             </group>
         </div>
-       <caifuBottom></caifuBottom>
+        <caifuBottom></caifuBottom>
     </div>
 </template>
 <script>
 import { XHeader, Group, Cell } from 'vux'
 import ymask from '../components/Mask'
-import tool from "../tool/tool"
 import lists from '../components/lists'//排行榜组件
 import pie from '../components/pie' //饼图
 import caifuBottom from '../components/caifuBottom'
 export default {
     name: 'myAccount',
     data() {
-        var data = [{
-            value: 3661,
-            name: '股票型'
-        }, {
-            value: 5713,
-            name: '债券型'
-        }, {
-            value: 9938,
-            name: '混合型'
-        }, {
-            value: 17623,
-            name: '货币型'
-        }, {
-            value: 3299,
-            name: 'QDII'
-        }, {
-            value: 3299,
-            name: 'ETF'
-        }];
         return {
-            top1:"top1",
-            top2:"top2",
-            maskShow:false,
-            totalAssets: tool.fmoney(2121212, 2),//总资产
-            obj: { name: "资产", percent: "&nbsp;&nbsp;" },
+            top1: "top1",
+            top2: "top2",
+            maskShow: false,
             myChart: {},
-            option: pie.pie(data)
+            pieLists: [],//饼图数据
+            amount: 0,//总资产
+            totalAgainst: 0,//总收益
+            profitRatio: 0,//盈亏比
+            buildDate: '',//成立时间
+            canUseAmount: 0, // 可用余额
+            obj:{ name: "资产", percent: "&nbsp;&nbsp;" }
         }
     },
     computed: {
-            items(){
+        items() {
             return [
-            {user:121212,sy:2112}
-            ,{user:121212,sy:2112},
-             {user:121212,sy:2112}
-            ,{user:121212,sy:2112},
-             {user:121212,sy:2112}
-            ,{user:121212,sy:2112}
+                { user: 121212, sy: 2112 }
+                , { user: 121212, sy: 2112 },
+                { user: 121212, sy: 2112 }
+                , { user: 121212, sy: 2112 },
+                { user: 121212, sy: 2112 }
+                , { user: 121212, sy: 2112 }
             ] //排行榜数据
         }
     },
@@ -141,23 +127,47 @@ export default {
         caifuBottom
     },
     mounted() {
-        this.chartInit();
+        this.getAccountInfo();
     },
     methods: {
-        chartInit() {
+        chartInit(data) {
             let _this = this;
-            window.onresize = function() {
-                _this.myChart.resize();
-            }
             this.myChart = echarts.init(document.getElementById('chart'));
-            this.myChart.setOption(this.option);
+            this.myChart.setOption(pie.pie(data));
             this.myChart.on("click", function(obj) {
                 _this.obj = obj.data;
                 _this.obj.percent = obj.percent + "%";
             })
+            window.onresize = function() {
+                _this.myChart.resize();
+            }
         },
-        xx(){
-            alert(121)
+        getAccountInfo() {
+            let _this = this;
+            this.post({
+                url: "/fundUser/fundAllInfo/v1.0",
+                success: function(e) {
+                    if (e.code == "0000") {
+                        let list = e.result.list;
+                        if (list.length > 0) {
+                            _this.amount = _this.tool.fmoney(list[0].amount, 2);
+                            _this.totalAgainst = _this.tool.fmoney(list[0].totalAgainst, 2);
+                            _this.profitRatio = list[0].profitRatio;
+                            _this.buildDate = list[0].buildDate;
+                            _this.canUseAmount = _this.tool.fmoney(list[0].canUseAmount, 2);
+                            for (let i = 0; i < list.length; i++) {
+                                let obj = {};
+                                obj.name = _this.tool.getType(list[i].fundType);
+                                obj.value = list[i].fundAmount;
+                                _this.pieLists.push(obj);
+                            }
+                            _this.chartInit(_this.pieLists);
+                        }else{
+
+                        }
+                    }
+                }
+            })
         }
     }
 }

@@ -3,8 +3,8 @@
             <div class="list_box">
                 <ul class="list" v-for="(item,index) in items"  :key="item.id" :class="{'ffeeaf':index%2 != 0}">
                     <li><span></span> <i>{{index+1}}</i></li>
-                    <li>{{item.user}}</li>
-                    <li>{{item.sy}} </li>
+                    <li>{{item.fundGroupName}}</li>
+                    <li>{{tool.fmoney(item.totalAgainst,2)}} </li>
                 </ul>
             </div>
         </div>
@@ -13,7 +13,27 @@
 <script>
     export default {
     name: 'lists',
-    props:["items"]
+    data(){
+        return {
+            items:[]
+        }
+    },
+    mounted(){
+        this.getInfo();
+    },
+    methods:{
+        getInfo(){
+            let _this = this;
+            this.post({
+                url: "/fundUser/fundRankList/v1.0",
+                success: function(e) {
+                    if (e.code == "0000") {
+                        _this.items=e.result.list;
+                    }
+                }
+            })
+        }
+    }
 }
 </script>
   <style lang="less" scoped>

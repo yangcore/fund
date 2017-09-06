@@ -57,7 +57,7 @@ let router=new Router({
 
 // simple history management
 const history = window.sessionStorage
-history.clear()
+// history.removeItem('/')
 let historyCount = history.getItem('count') * 1 || 0
 history.setItem('/', 0)
 
@@ -78,6 +78,7 @@ router.beforeEach(function (to, from, next) {
     to.path !== '/' && history.setItem(to.path, historyCount)
     store.commit('updateDirection', {direction: 'forward'})
   }
+
   //TODO
   if (/\/http/.test(to.path)) {
     let url = to.path.split('http')[1]
@@ -88,6 +89,7 @@ router.beforeEach(function (to, from, next) {
 })
 
 router.afterEach(function (to) {
+  window.scrollTo(0,0);
   store.commit('updateLoadingStatus', {isLoading: false})
 })
 

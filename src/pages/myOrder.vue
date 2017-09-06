@@ -65,6 +65,21 @@ export default {
     methods: {
         onItemClick(index) {
             console.info(index);
+            this.getMyorder(index);
+        },
+        getMyorder(index){
+            let _this = this;
+            this.post({
+                url: "/fundUser/fundOrderList/v1.0",
+                data:{
+                    flag:index
+                },
+                success: function(e) {
+                    if (e.code == "0000") {
+                       
+                    }
+                }
+            })
         }
     }
 }

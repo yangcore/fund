@@ -6,14 +6,14 @@
                 2017.8.24-9.34
             </p>
             <!-- 立即参与 -->
-            <a href="javascript:;" class="play" @click="islogin"></a> 
+            <div href="javascript:;" class="play" @click="intUser"></div> 
         </div>
         <div class="content1">
             <p class="rule_btn">活动规则>></p>
         </div>
         <!-- 排行榜 -->
         <h1 class="title"></h1>
-        <lists :items="items">
+        <lists>
         </lists>
     </div>
 </template>
@@ -28,16 +28,6 @@ export default {
         }
     },
     computed:{
-        items(){
-            return [
-            {user:121212,sy:2112}
-            ,{user:121212,sy:2112},
-             {user:121212,sy:2112}
-            ,{user:121212,sy:2112},
-             {user:121212,sy:2112}
-            ,{user:121212,sy:2112}
-            ] //排行榜数据
-        }
     },
     components: {
         lists,
@@ -47,14 +37,23 @@ export default {
        
     },
     methods: {
-         islogin(){
-            // 判断是否登陆
-            //TODO 未登录
-
-            //已登陆
-            this.$router.push('/fundPortfolio');
-            
-        },
+         intUser() {
+            let _this = this;
+            this.post({
+                url: "/fund/initAcct/v1.0",
+                success: function(e) {
+                    if (e.code == "0000") {
+                        if (e.result.isHaveFundName == 1) {
+                            _this.$router.push('/fundPortfolio'); //已有基金组合名
+                        } else {
+                            _this.$router.push('/');
+                        }
+                    }else if(e.code=='1004'){
+                          sessionStorage.setItem('redirectUrl','https://mdev.paicaifu.com/p/fund.html');
+                    }
+                }
+            })
+        }
     }
 }
 </script>
