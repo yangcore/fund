@@ -1,10 +1,14 @@
 <template>
-    <div class="Mask" v-show="maskShow">
+    <div class="Mask" v-show="maskShow" >
     </div>
 </template>
 <script>
     export default {
     name: 'ymask',
+    data(){
+        return{
+        }
+    },
     props:["maskShow"]
     }
 </script>

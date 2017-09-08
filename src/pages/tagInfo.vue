@@ -3,44 +3,50 @@
         <x-header :left-options="{backText: ''}" style="border-bottom:1px solid #d8d8d8">
         </x-header>
         <div class="top">
-            <p>涉及苹果公司产品供应链</p>
+            <p>涉及{{$route.query.sectorFundType}}产品供应链</p>
             <p>
-                <span>“</span>茁壮成长，有一点的风险，适应于短期投资。茁壮 成长，有一点的风险，适应于短期投资。有一点的 风险，适应于短期投资。
+                <span>“</span>{{$route.query.ftTemplateDescribe}}
                 <span>”</span>
             </p>
         </div>
         <div class="bottom">
-            <div class="content">
+            <div class="content" v-for="list in lists" :key="list.id">
+                <router-link :to="{path:'/fundPortfolio/fundDetails',query:{name:list.name,type:list.type,code:list.code}}">
                 <div class="hr"></div>
-            <flexbox :gutter="0">
-                <flexbox-item :span="2.2/7">
-                    <div class="flex-demo">
-                        <p class="updown">0.31%</p>
-                        <span>日涨幅</span>
-                    </div>
-                </flexbox-item>
-                <flexbox-item :span="2.6/7">
-                    <div class="flex-demo">
-                          <p class="name">上投摩根核心成长</p>
-                          <span>000457</span>
-                    </div>
-                </flexbox-item>
-                <flexbox-item :span="2.2/7">
-                    <div class="flex-demo">
-                        <span class="buy">购买</span>
-                    </div>
-                </flexbox-item>
-            </flexbox>
+                <flexbox :gutter="0">
+                    <flexbox-item :span="2.2/7">
+                        <div class="flex-demo">
+                            <p style="font-size:16px" :class="tool.colorType(list.dailyIncrease)">{{Number(list.dailyIncrease)}}%</p>
+                            <span>日涨幅</span>
+                        </div>
+                    </flexbox-item>
+                    <flexbox-item :span="2.6/7">
+                        <div class="flex-demo">
+                            <p class="name">{{list.name}}</p>
+                            <span>{{list.code}}</span>
+                        </div>
+                    </flexbox-item>
+                    <flexbox-item :span="2.2/7">
+                    <router-link :to="{path:'/fundPortfolio/apply',query:{name:list.name,type:list.type,code:list.code}}">
+                         <div class="flex-demo">
+                            <span class="buy">购买</span>
+                        </div>
+                    </router-link>
+                       
+                    </flexbox-item>
+                </flexbox>
+                </router-link>
             </div>
         </div>
     </div>
 </template>
 <script>
-import { XHeader,Flexbox, FlexboxItem } from 'vux'
+import { XHeader, Flexbox, FlexboxItem } from 'vux'
 export default {
     name: 'tagInfo',
     data() {
         return {
+            lists: []
         }
     },
     computed: {
@@ -52,10 +58,23 @@ export default {
         FlexboxItem
     },
     mounted() {
-
+        this.getList()
     },
     methods: {
-
+        getList() {
+            let _this = this;
+            this.post({
+                url: "/fundMsg/querySectorFund/v1.0",
+                data: {
+                    sectorFundType: _this.$route.query.sectorFundType
+                },
+                success: function(e) {
+                    if (e.code == "0000") {
+                        _this.lists = e.result.list;
+                    }
+                }
+            })
+        }
     }
 }
 </script>
@@ -97,17 +116,21 @@ export default {
     border-bottom: 1px solid #d8d8d8;
     position: relative;
 }
-.content .flex-demo{
+
+.content .flex-demo {
     text-align: center;
 }
-.updown{
-    font-size:42px;
-    color:#fb524d
+
+.updown {
+    font-size: 42px;
+    color: #fb524d
 }
-.updown+span{
-    color:#888888;
+
+.updown+span {
+    color: #888888;
     font-size: 26px;
 }
+
 .buy {
     display: inline-block;
     width: 1.28rem;
@@ -118,14 +141,17 @@ export default {
     font-size: 0.34667rem;
     line-height: 0.64rem;
 }
-.name{
-    padding:10px 0;
+
+.name {
+    padding: 10px 0;
 }
-.name+span{
+
+.name+span {
     font-size: 26px;
-    color:#888888;
+    color: #888888;
 }
-.hr{
+
+.hr {
     width: 1Px;
     background: #ebebeb;
     height: 90px;

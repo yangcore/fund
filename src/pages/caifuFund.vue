@@ -4,7 +4,7 @@
         <div style="background:white;padding-bottom:20px;">
             <ul class="fund_list">
                 <li>总资产</li>
-                <li>673.15</li>
+                <li>{{Number(demandInfo.amount)}}</li>
             </ul>
 
             <div class="info">
@@ -16,21 +16,21 @@
                         <div class="flex-demo">
                             <span>持仓份额</span>
                             <br>
-                            <span>562.30</span>
+                            <span>{{Number(demandInfo.InvestAmount)}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>万份收益</span>
                             <br>
-                            <span>562.30</span>
+                            <span>{{Number(demandInfo.thousandReturns)}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>未确认金额</span>
                             <br>
-                            <span>562.30</span>
+                            <span>{{Number(demandInfo.unSubmitAmount)}}</span>
                         </div>
                     </flexbox-item>
                 </flexbox>
@@ -40,19 +40,18 @@
                         <div class="flex-demo">
                             <span>昨日收益</span>
                             <br>
-                            <span>562.30</span>
+                           <span>{{Number(demandInfo.yestardayAgainst)}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>总收益</span>
                             <br>
-                            <span>562.30</span>
+                             <span>{{Number(demandInfo.demandAgainst)}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
-
                         </div>
                     </flexbox-item>
                 </flexbox>
@@ -60,14 +59,18 @@
             <div style="padding-top:20px;">
                 <flexbox>
                     <flexbox-item>
-                        <div class="redeem">
-                            赎回
-                        </div>
+                        <router-link :to="{path:'/fundPortfolio/redeem',query:{code:'888888',name:'拍活期基金',type:'1006'}}" >
+                            <div class="redeem">
+                                赎回
+                            </div>
+                        </router-link>
                     </flexbox-item>
                     <flexbox-item>
-                        <div class="buy">
-                            申购
-                        </div>
+                        <router-link :to="{path:'/fundPortfolio/apply',query:{code:'888888',name:'拍活期基金',type:'1006'}}">
+                            <div class="buy">
+                                    申购
+                            </div>
+                        </router-link>
                     </flexbox-item>
                 </flexbox>
             </div>
@@ -89,6 +92,14 @@ export default {
     name: 'caifuFund',
     data() {
         return {
+            demandInfo:{
+                InvestAmount:0,
+                amount:0,
+                demandAgainst:0,
+                thousandReturns:0,
+                unSubmitAmount:0,
+                yestardayAgainst:0
+            }
         }
     },
     computed: {
@@ -100,10 +111,20 @@ export default {
         FlexboxItem
     },
     mounted() {
-
+        this.getCaifund();
     },
     methods: {
-
+        getCaifund(){
+            let _this = this;
+            this.post({
+                url: "/fundDemand/fundDemandInfo/v1.0",
+                success: function(e) {
+                    if (e.code == "0000") {
+                       _this.demandInfo=e.result.demandInfo;
+                    }
+                }
+            })
+        }
     }
 }
 </script>

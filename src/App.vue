@@ -1,27 +1,32 @@
 <template>
   <div id="app">
     <loading v-model="isLoading"></loading>
-    <div id="views">
-     <transition 
-     :name="'vux-pop-' + (direction === 'forward' ? 'in' : 'out')">
-          <router-view></router-view>
-        </transition>
-     </div>
+    <div @click="maskShow=!maskShow">
+      <ymask :maskShow="maskShow" ></ymask>
+    </div>
+   
+    <transition :name="'vux-pop-' + (direction === 'forward' ? 'in' : 'out')">
+      <router-view></router-view>
+    </transition>
+    <i class="share" @click="share"></i>
+    <div v-show="maskShow" class="shareTips"></div>
   </div>
 </template>
 
 <script>
 import { Loading } from 'vux'
 import { mapState } from 'vuex'
+import ymask from '../src/components/Mask'
 export default {
   name: 'app',
   data() {
     return {
-     
+      maskShow: false
     }
   },
   components: {
-    Loading
+    Loading,
+    ymask
   },
   computed: {
     ...mapState({
@@ -30,10 +35,23 @@ export default {
     })
   },
   mounted() {
-
   },
   methods: {
-   
+    share(){
+      
+      if(this.tool.isApp()) {
+				window.location.href = "paicaifu://share?" + JSON.stringify(this.appshare_config)
+			} else {
+        document.getElementsByClassName("shareTips")[0].classList.add("flash");
+				document.getElementsByClassName("shareTips")[0].classList.add("animated");
+				setTimeout(function() {
+						document.getElementsByClassName("shareTips")[0].classList.remove("flash");
+						document.getElementsByClassName("shareTips")[0].classList.remove("animated");
+					},
+					1e3)
+        this.maskShow=true;
+      }
+    }
   }
 }
 </script>
@@ -49,7 +67,28 @@ export default {
 @import '~vux/src/styles/1px.less';
 @import './assets/app.less';
 @import '~vux/src/styles/tap.less';
-
+@import '~animate.css/animate.min.css';
+.share {
+  display: block;
+  width: 90px;
+  height: 90px;
+  background: url(https://cdn.paicaifu.com/webapp/image/inapp/fund/share.png) no-repeat center;
+  background-size: 90px 90px;
+  position: fixed;
+  margin: auto;
+  top: 50%;
+  right: 2%;
+}
+.shareTips{
+  width: 198px;
+  height: 88px;
+  background: url('https://cdn.paicaifu.com/webapp/image/inapp/fund/shareicon.png') no-repeat center 0;
+  background-size: 198px 88px;
+  position: absolute;
+  top: 0;
+  z-index: 42000;
+  right: 5%;
+}
 .weui-search-bar:before {
   border: none !important;
 }
@@ -77,54 +116,70 @@ export default {
 .vux-pop-in-leave-active {
   will-change: transform;
   transition: all 500ms;
-  height: 100%;
-  // top: 46px;
+  height: 100%; // top: 46px;
   position: absolute;
   backface-visibility: hidden;
   perspective: 1000;
 }
+
 .vux-pop-out-enter {
   opacity: 0;
   transform: translate3d(-100%, 0, 0);
 }
+
 .vux-pop-out-leave-active {
   opacity: 0;
   transform: translate3d(100%, 0, 0);
 }
+
 .vux-pop-in-enter {
   opacity: 0;
   transform: translate3d(100%, 0, 0);
 }
+
 .vux-pop-in-leave-active {
   opacity: 0;
   transform: translate3d(-100%, 0, 0);
 }
-.fundInfo .flex-demo2{
+
+.fundInfo .flex-demo2 {
   line-height: normal !important;
 }
-a{
+
+a {
   color: black;
 }
-a:hover{
+
+a:hover {
   text-decoration: none;
 }
-._36cca4{
+
+._36cca4 {
   color: #36cca4;
 }
-._ff5255{
+
+._ff5255 {
   color: #ff5255;
 }
-[v-cloak] { display: none } 
-.balance.money div .weui-cells{
-    margin-top: 0 !important;
+
+[v-cloak] {
+  display: none
 }
-.balance.money div .vux-no-group-title{
-     margin-top: 0 !important;
+
+.balance.money div .weui-cells {
+  margin-top: 0 !important;
 }
-.balance.money .weui-cells:before,.weui-cells:after{
+
+.balance.money div .vux-no-group-title {
+  margin-top: 0 !important;
+}
+
+.balance.money .weui-cells:before,
+.weui-cells:after {
   border: none !important;
 }
-.balance.money .vux-number-input{
-    font-size: 30px;
+
+.balance.money .vux-number-input {
+  font-size: 30px;
 }
 </style>

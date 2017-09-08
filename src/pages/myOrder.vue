@@ -7,23 +7,39 @@
                 <tab-item @on-item-click="onItemClick">赎回</tab-item>
             </tab>
         </div>
-        <div class="list">
+        <div class="list" v-for="list in lists" :key="list.id">
             <flexbox>
                 <flexbox-item>
                     <div class="flex-demo">
-                        <p><span>申购</span>易方达消费行业 110022 </p>
-                        <p>2017-07-30 11:00:59 <span>份额:8000</span></p>
+                        <p>
+                            <span v-if="list.Type=='1'">申购</span>
+                            <span v-else>赎回</span>
+                            {{list.fundName}} {{list.fundCode}} </p>
+                        <p>{{list.fundDateTime.split('.')[0]}}
+                        <span v-if="Number(list.fundNumAmount) ||Number(list.fundNumAmount)==0 ">份额:
+                            {{parseFloat(list.fundNumAmount) }}
+                        </span>
+                        <span v-else>份额:
+                            {{list.fundNumAmount }}
+                        </span>
+                        </p>
                     </div>
                 </flexbox-item>
-                <flexbox-item :span="4">
+                <flexbox-item :span="3">
                     <div class="flex-right">
-                        <span>￥100,000</span>
-                        <div class="warn">等待确认</div>
+                        <span v-if="Number(list.fundAmount) ||Number(list.fundAmount)==0 ">
+                            {{parseFloat(list.fundAmount)}}
+                        </span>
+                        <span v-else>
+                            {{list.fundAmount }}
+                        </span>
+                        <div class="warn" v-if="list.status=='1'">等待确认</div>
+                        <div class="info" v-else>已确认</div>
                     </div>
                 </flexbox-item>
             </flexbox>
         </div>
-        <div class="list">
+        <!-- <div class="list">
             <flexbox>
                 <flexbox-item>
                     <div class="flex-demo">
@@ -38,7 +54,7 @@
                     </div>
                 </flexbox-item>
             </flexbox>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
@@ -48,6 +64,7 @@ export default {
     name: 'myOrder',
     data() {
         return {
+            lists:[]
         }
     },
     computed: {
@@ -60,23 +77,23 @@ export default {
         Flexbox,
         FlexboxItem
     },
-    mounted() {
+    created() {
+        this.getMyorder(0);//初始化申购订单
     },
     methods: {
         onItemClick(index) {
-            console.info(index);
             this.getMyorder(index);
         },
         getMyorder(index){
             let _this = this;
             this.post({
-                url: "/fundUser/fundOrderList/v1.0",
+                url: "/fundOrder/fundOrderList/v1.0",
                 data:{
-                    flag:index
+                    flag:index+1
                 },
                 success: function(e) {
                     if (e.code == "0000") {
-                       
+                       _this.lists=e.result.list;
                     }
                 }
             })

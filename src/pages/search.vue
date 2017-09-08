@@ -9,10 +9,13 @@
             <span @click="searchInfo">搜索</span>
         </div>
 
-        <div class="lists">
+        <div class="lists" v-if="lists.length>0">
             <router-link :to="{path:'/fundPortfolio/fundDetails',query:{code:list.code,name:list.name,type:list.type}}" v-for="list in lists" :key="list.id">
                 <p class="list">{{list.name}} &nbsp;&nbsp;&nbsp;&nbsp;{{list.code}}</p>
             </router-link>
+        </div>
+        <div v-if="showSpace" style="width:100%;padding:30px 0;text-align:center;font-size:16px;color:#888">
+            搜索暂无结果
         </div>
     </div>
 </template>
@@ -23,7 +26,8 @@ export default {
     data() {
         return {
             value: "",
-            lists: []
+            lists: [],
+            showSpace:false
         }
     },
     computed: {
@@ -41,6 +45,7 @@ export default {
         clear(){
            this.value= "";
            this.lists= [];
+           this.showSpace=false;
         },
         searchInfo() {
             let _this = this;
@@ -50,12 +55,13 @@ export default {
                     keyWord: _this.value
                 },
                 success: function(e) {
-                    console.info(e);
                     if (e.code == "0000") {
                         if( e.result.list){
                              _this.lists = e.result.list;
-                        }else{
-                             _this.lists = [];
+                             console.info(e.result.list.length);
+                              if(e.result.list.length==0){
+                                  _this.showSpace=true;
+                              }
                         }
                     }
                 }

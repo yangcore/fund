@@ -16,72 +16,77 @@
                         <span style="color:#4a80ff" v-cloak>{{parseFloat(summary.value==NaN?0:summary.value)}}</span>
                     </div>
                 </flexbox-item>
-                <flexbox-item v-if="$route.query.type!=='1005'">
+                <flexbox-item v-if="$route.query.type!=='1005' && $route.query.type!=='1006'">
                     <div class="flex-demo">
                         <p>日涨幅值</p>
-                        <span v-if="summary.dailyIncrease>=0"  class="_ff5255" v-cloak>{{parseFloat(summary.dailyIncrease==NaN?0:summary.dailyIncrease)}}%</span>
-                        <span v-if="summary.dailyIncrease<0"  class="_36cca4" v-cloak>{{parseFloat(summary.dailyIncrease==NaN?0:summary.dailyIncrease)}}%</span>
+                        <span v-if="summary.dailyIncrease>=0" :class="colorType(summary.dailyIncrease==NaN?0:summary.dailyIncrease)" v-cloak>{{parseFloat(summary.dailyIncrease==NaN?0:summary.dailyIncrease)}}%</span>
                     </div>
                 </flexbox-item>
             </flexbox>
             <p class="uptime" v-cloak>数据更新日期：{{summary.updateDate}}</p>
         </div>
 
-
         <div class="_Label">
             <flexbox :gutter="0">
                 <flexbox-item>
                     <div class="flex-demo3">
-                        <div v-if="$route.query.type!=='1005'">累计净值</div>
+                        <div v-if="$route.query.type!=='1005' && $route.query.type!=='1006'">累计净值</div>
                         <div v-else>七日年化率</div>
 
-                        <span v-if="$route.query.type!=='1005'">1.8720</span>
-                        <span v-else>1.8720%</span>
+                        <span v-if="$route.query.type!=='1005' && $route.query.type!=='1006'">{{parseFloat(summary.totalNetValue)}}</span>
+                        <span v-else>{{parseFloat(summary.sevenDaysRate)}}%</span>
                     </div>
                 </flexbox-item>
                 <flexbox-item>
                     <div class="flex-demo3">
                         <div>近1个月</div>
-                        <span class="_36cca4">-0.37%</span>
+                        <span :class="colorType(summary.oneMonth)">{{parseFloat(summary.oneMonth)}}%</span>
                     </div>
                 </flexbox-item>
                 <flexbox-item>
                     <div class="flex-demo3" style="border:none">
                         <div>近3个月</div>
-                        <span class="_ff5255">-2.9%</span>
+                        <span :class="colorType(summary.threeMonths)">{{parseFloat(summary.threeMonths)}}%</span>
                     </div>
                 </flexbox-item>
             </flexbox>
-           <flexbox :gutter="0">
+            <flexbox :gutter="0">
                 <flexbox-item>
                     <div class="flex-demo3">
                         <div>近一年</div>
-                        <span class="_36cca4">1.8720</span>
+                        <span :class="colorType(summary.oneYear)">{{parseFloat(summary.oneYear)}}%</span>
                     </div>
                 </flexbox-item>
                 <flexbox-item>
                     <div class="flex-demo3">
                         <div>近三年</div>
-                        <span>-0.37%</span>
+                        <span :class="colorType(summary.threeYears)">{{parseFloat(summary.threeYears)}}%</span>
                     </div>
                 </flexbox-item>
                 <flexbox-item>
                     <div class="flex-demo3" style="border:none">
                         <div>成立以来</div>
-                        <span class="_ff5255">-2.9%</span>
+                        <span :class="colorType(summary.sinceFunding)">{{parseFloat(summary.sinceFunding)}}%</span>
                     </div>
                 </flexbox-item>
             </flexbox>
         </div>
-        <p class="time">成立日期:2010.7.10&nbsp;&nbsp;&nbsp;&nbsp; 基金经理:萧楠</p>
+        <p class="time">成立日期:{{detail.fbiBuildDate}}&nbsp;&nbsp;&nbsp;&nbsp; 基金经理:{{detail.fbiFundManager}}</p>
         <div class="bottom">
             <p>单位净值走势:</p>
-            <p><a href="">http://www.efunds.com.cn/html/fund/110022_fundinfo.htm</a></p>
-            <p>拍财富基金智投顾观点：该基金主要投向大消费行业，风格鲜明、稳定、具备较高配置价值</p>
-            <p><span class="tag">大消费</span><span class="tag">大消费</span></p>
+            <p>
+                <a :href="detail.fbiTrendLink">{{detail.fbiTrendLink}}</a>
+            </p>
+            <p>拍财富基金智投顾观点：{{detail.fbiPcfPoint}}</p>
+            <p v-if="detail.fbiLeable">
+                  <span class="tag"  v-for="fbiLeable in detail.fbiLeable.split(',')" :key="fbiLeable.id" >
+                    {{fbiLeable}}
+                   </span>
+            </p>
         </div>
-
-         <router-link class="buy" :to="{path:'/fundPortfolio/apply',query:{code:$route.query.code,name:$route.query.name,type:$route.query.type}}" > <div class="buy">立刻购买</div></router-link>
+        <router-link class="buy" :to="{path:'/fundPortfolio/apply',query:{code:$route.query.code,name:$route.query.name,type:$route.query.type}}">
+            <div class="buy">立刻购买</div>
+        </router-link>
     </div>
 </template>
 <script>
@@ -91,14 +96,28 @@ export default {
     name: 'fundDetails',
     data() {
         return {
-            fundCode:'',
-            summary:{
-                dailyIncrease:0,
-                updateDate:'',
-                value:0
+            fundCode: '',
+            summary: {
+                dailyIncrease: 0,
+                updateDate: '',
+                value: 0,
+                oneMonth:0,
+                oneYear:0,
+                sevenDaysRate:0,
+                sinceFunding:0,
+                threeMonths:0,
+                threeYears:0,
+                totalNetValue:0,
+                updateDate:''
             },
-            detail:{},
-            fundType:''
+            detail: {
+                fbiBuildDate:'',
+                fbiFundManager:'',
+                fbiLeable:'',
+                fbiPcfPoint:'',
+                fbiTrendLink:''
+            },
+            fundType: ''
         }
     },
     computed: {
@@ -109,26 +128,33 @@ export default {
         Flexbox,
         FlexboxItem
     },
-    mounted() {
-        this.fundCode=this.$route.query.code;
+    created() {
+        this.fundCode = this.$route.query.code;
         this.getfundDetails(this.$route.query.code);
-        this.fundType=this.tool.getType(this.$route.query.type);
+        this.fundType = this.tool.getType(this.$route.query.type);
     },
     methods: {
-        getfundDetails(fundCode){
+        getfundDetails(fundCode) {
             let _this = this;
             this.post({
                 url: "/fundMsg/queryFundDetail/v1.0",
-                data:{
-                    fundCode:fundCode
+                data: {
+                    fundCode: fundCode
                 },
                 success: function(e) {
-                   if(e.code=="0000"){
-                       _this.summary= e.result.summary;
-                       _this.detail= e.result.detail;
-                   }
+                    if (e.code == "0000") {
+                        _this.summary = e.result.summary;
+                        _this.detail = e.result.detail;
+                    }
                 }
             })
+        },
+        colorType(e) {
+            if (e >= 0) {
+                return "_ff5255"
+            } else {
+                return "_36cca4"
+            }
         }
     }
 }
@@ -136,11 +162,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
-.fundDetails{
+.fundDetails {
     background: #f4f4f4;
     height: 100%;
     padding-bottom: 200px;
 }
+
 .header_title {
     width: 50%;
     color: black;
@@ -156,6 +183,10 @@ export default {
     margin-top: 5PX;
     display: block;
     font-size: 15Px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .header_title span:nth-child(2) {
@@ -169,75 +200,89 @@ export default {
     float: right;
     line-height: 46Px;
     margin-right: 2%;
-    font-size: 16Px;
+    font-size: 14Px;
 }
-.center{
+
+.center {
     background: white;
 }
-.flex-demo{
+
+.flex-demo {
     text-align: center;
 }
-.flex-demo p{
+
+.flex-demo p {
     font-size: 26px;
     color: #888888;
 }
-.flex-demo span{
-    font-size: 70px;
-    // color: #4a80ff;
+
+.flex-demo span {
+    font-size: 70px; // color: #4a80ff;
 }
-.center{
+
+.center {
     padding-top: 30px;
 }
-.uptime{
+
+.uptime {
     color: #888888;
     text-align: center;
     font-size: 26px;
     padding-bottom: 20px;
 }
-.flex-demo3{
+
+.flex-demo3 {
     text-align: center;
     border-right: 1Px solid #d8d8d8;
 }
-.flex-demo3 div{
+
+.flex-demo3 div {
     color: #888888;
     font-size: 26px;
 }
+
 .flex-demo3 {
-    margin:  20px 0;
+    margin: 20px 0;
 }
-._Label{
+
+._Label {
     background: white;
     padding-top: 30px;
     margin-top: 30px;
     border-bottom: 1Px solid #d8d8d8;
 }
-.time{
+
+.time {
     color: #888888;
     font-size: 26px;
     padding-bottom: 20px;
     background: white;
     padding: 10px 0 10px 30px;
 }
-.bottom{
+
+.bottom {
     padding: 30px 20px 30px 30px;
     background: white;
     margin-top: 30px;
 }
-.bottom p:nth-child(1){
+
+.bottom p:nth-child(1) {
     color: #4a80ff;
 }
-.bottom p:nth-child(3){
+
+.bottom p:nth-child(3) {
     color: #888;
     margin-top: 20px;
 }
-.bottom p:nth-child(4){
-   color: #888;
-   margin-top: 30px;
+
+.bottom p:nth-child(4) {
+    color: #888;
+    margin-top: 30px;
 }
-.bottom p:nth-child(4) span{
+
+.bottom p:nth-child(4) span {
     display: inline-block;
-    width: 100px;
-    height: 40px;
+    padding: 2px 10px;
     border: 1Px solid #888888;
     line-height: 42px;
     font-size: 26px;
@@ -245,7 +290,8 @@ export default {
     border-radius: 2Px;
     margin-right: 30px;
 }
-.buy{
+
+.buy {
     width: 80%;
     height: 80px;
     background: #4a80ff;
@@ -256,6 +302,5 @@ export default {
     border-radius: 3px;
     margin-top: 60px;
 }
-
 </style>
 

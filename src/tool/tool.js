@@ -42,8 +42,46 @@ export default {
             case "1005":
                n="货币型";
                 break;
+            case "1006":
+                n="拍活期";
+                break;
         }
 
         return n;
+    },
+    colorType(e){
+        if(e>=0){
+            return "_ff5255"
+        }else{
+             return "_36cca4"
+        }
+    },
+    isApp(){
+        let t=navigator.userAgent.toLowerCase();
+            if("riches" == t.match(/riches/i)) {
+                return true;
+              } else {
+                return false;
+              }
+    },
+    GetQueryString(t) {
+        var e = new RegExp("(^|&)" + t + "=([^&]*)(&|$)"),
+            s = window.location.search.substr(1).match(e);
+        return null != s ? unescape(s[2]) : null
+    },
+    getUrlAppToken(){
+        let url=window.location.href;
+        let appToken='';
+        if(url.split('?').length>1){
+            let arr=url.split('?')[1].split('&');
+            for(var i=0;i<arr.length;i++){
+                if(arr[i].indexOf('appToken')>=0){
+                    appToken=arr[i];
+                    break;
+                }
+            }
+        }
+        
+        return appToken.split('=')[1];
     }
 }

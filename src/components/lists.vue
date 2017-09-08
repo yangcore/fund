@@ -19,7 +19,7 @@
         }
     },
     mounted(){
-        this.getInfo();
+        // this.getInfo();
     },
     methods:{
         getInfo(){

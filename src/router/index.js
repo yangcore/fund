@@ -59,7 +59,7 @@ let router=new Router({
 const history = window.sessionStorage
 // history.removeItem('/')
 let historyCount = history.getItem('count') * 1 || 0
-history.setItem('/', 0)
+history.setItem('/index', 0)
 
 router.beforeEach(function (to, from, next) {
   store.commit('updateLoadingStatus', {isLoading: true})
@@ -67,7 +67,7 @@ router.beforeEach(function (to, from, next) {
   const toIndex = history.getItem(to.path)
   const fromIndex = history.getItem(from.path)
   if (toIndex) {
-    if (!fromIndex || parseInt(toIndex, 10) > parseInt(fromIndex, 10) || (toIndex === '0' && fromIndex === '0')) {
+    if (!fromIndex || parseInt(toIndex, 10) > parseInt(fromIndex, 10) || (toIndex === '0' && fromIndex === '0')){
       store.commit('updateDirection', {direction: 'forward'})
     } else {
       store.commit('updateDirection', {direction: 'reverse'})
