@@ -53,7 +53,12 @@ export default {
                 },
                 success: function(e) {
                     if (e.code == "0000") {
-                        _this.$router.push('/fundPortfolio');
+                        if(sessionStorage.getItem('myAccount')){
+                                _this.$router.push('/myAccount');
+                                sessionStorage.removeItem('myAccount');
+                        }else{
+                                _this.$router.push('/fundPortfolio'); //已有基金组合名
+                        }
                     }else if (e.code == "1002") {
                         _this.errorMsg = "基金组合名已被占用";
                         _this.error = true;
@@ -72,7 +77,12 @@ export default {
                     if (e.code == "0000") {
                         let _str = e.result.loginName.substr(3, 4);
                         if (e.result.isHaveFundName == 1) {
-                            _this.$router.push('/fundPortfolio'); //已有基金组合名
+                            if(sessionStorage.getItem('myAccount')){
+                                _this.$router.push('/myAccount');
+                                sessionStorage.removeItem('myAccount');
+                            }else{
+                                _this.$router.push('/fundPortfolio'); //已有基金组合名
+                            }
                         } else {
                             _this.fundName = e.result.loginName.replace(new RegExp(_str, 'g'), "****");
                         }

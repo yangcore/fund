@@ -2,10 +2,9 @@
   <div id="app">
     <loading v-model="isLoading"></loading>
     <div @click="maskShow=!maskShow">
-      <ymask :maskShow="maskShow" ></ymask>
+      <ymask :maskShow="maskShow"></ymask>
     </div>
-   
-    <transition :name="'vux-pop-' + (direction === 'forward' ? 'in' : 'out')">
+    <transition :name="'vux-pop-' + (direction === 'forward' ? 'in' : 'out')">      
       <router-view></router-view>
     </transition>
     <i class="share" @click="share"></i>
@@ -35,21 +34,31 @@ export default {
     })
   },
   mounted() {
+    var _this=this;
+    sessionStorage.setItem('index','index');
+    document.getElementsByTagName('body')[0].onhashchange=function(){
+      if(!sessionStorage.getItem('reload')){
+        if(window.location.href.indexOf('index')>0){
+          sessionStorage.setItem('reload','reload');
+          sessionStorage.setItem('token',_this.tool.getUrlAppToken());
+          window.location.href=window.location.origin.indexOf('127')>=0?(window.location.origin):(window.location.origin+"/p/fund.html");
+        }
+      }
+    }
   },
   methods: {
-    share(){
-      
-      if(this.tool.isApp()) {
-				window.location.href = "paicaifu://share?" + JSON.stringify(this.appshare_config)
-			} else {
+    share() {
+      if (this.tool.isApp()) {
+        window.location.href = "paicaifu://share?" + JSON.stringify(this.appshare_config)
+      } else {
         document.getElementsByClassName("shareTips")[0].classList.add("flash");
-				document.getElementsByClassName("shareTips")[0].classList.add("animated");
-				setTimeout(function() {
-						document.getElementsByClassName("shareTips")[0].classList.remove("flash");
-						document.getElementsByClassName("shareTips")[0].classList.remove("animated");
-					},
-					1e3)
-        this.maskShow=true;
+        document.getElementsByClassName("shareTips")[0].classList.add("animated");
+        setTimeout(function() {
+          document.getElementsByClassName("shareTips")[0].classList.remove("flash");
+          document.getElementsByClassName("shareTips")[0].classList.remove("animated");
+        },
+          1e3)
+        this.maskShow = true;
       }
     }
   }
@@ -79,7 +88,8 @@ export default {
   top: 50%;
   right: 2%;
 }
-.shareTips{
+
+.shareTips {
   width: 198px;
   height: 88px;
   background: url('https://cdn.paicaifu.com/webapp/image/inapp/fund/shareicon.png') no-repeat center 0;
@@ -89,6 +99,7 @@ export default {
   z-index: 42000;
   right: 5%;
 }
+
 .weui-search-bar:before {
   border: none !important;
 }

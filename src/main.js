@@ -16,7 +16,7 @@ Vue.use(AlertPlugin);
 import { WechatPlugin } from 'vux'
 Vue.use(WechatPlugin)
 import qs from 'qs'
-const baseUrl = "https://mdev.paicaifu.com";
+const baseUrl = window.location.origin.indexOf('127')>=0?'https://mdev.paicaifu.com':window.location.origin;
 const loginTimeOutErrorCode = 'login_timeout_error';
 
 Vue.prototype.baseUrl = baseUrl;
@@ -35,7 +35,7 @@ Vue.prototype.http = function (opts) {
     data: opts.data || {},
     headers: opts.headers || {},
   }).then(function (response) {
-    console.info(response, "获取的数据");
+    // console.info(response, "获取的数据");
     vue.$vux.loading.hide();
     opts.success(response.data)
     if (response.data.code == '1004') {
@@ -65,14 +65,28 @@ Vue.prototype.http = function (opts) {
     }
   })
 }
-if(tool.isApp()){
-  sessionStorage.setItem('token', tool.getUrlAppToken());
+Vue.prototype.getItemInfo=function(){
+  let tokenInfo='';
+  if(tool.isApp()){
+    if(window.location.href.indexOf('appToken')>=0){
+      let str=tool.getUrlAppToken();
+      sessionStorage.setItem('token',(str!=="undefined")?str : '');
+    }
+    tokenInfo= sessionStorage.getItem("token")?sessionStorage.getItem("token"):'';
+  }else{
+    tokenInfo=localStorage.getItem("token")?localStorage.getItem("token"):'';
+  }
+  let token = {
+      token:tokenInfo,
+      // token:"04489bc3bm934aa78078ebf1ca2e4746",
+      // token:'m37fm8c92a5c43f49b56c3f602a645m5',
+      isApp:tool.isApp()?1:0
+  };
+  return token;
 }
-let token = {
-    token:sessionStorage.getItem("token"),
-    isApp:tool.isApp()?1:0
-};
+
 Vue.prototype.getToken = function (opts, type) {
+   let token = this.getItemInfo();
   if (opts.data) {
     Object.assign(opts.data, token);
     opts.data = qs.stringify(opts.data);
@@ -107,11 +121,11 @@ const wx = Vue.wechat;
 const t = {
   title: "我捡到一个神秘的水晶球，然后，神奇的事情发生了。。。",
   desc: "就不告诉你！",
-  link: "https://mdev.paicaifu.com/p/fund.html#/index",
+  link: baseUrl+"/p/fund.html#/index",
   imgUrl: "https://cdn.paicaifu.com/webapp/image/Ballot/Balloticon.png"
 }
 const appshare_config = {
-  shareUrl: "https://mdev.paicaifu.com/p/fund.html#/index",
+  shareUrl:baseUrl+"/p/fund.html#/index",
   title: "我捡到一个神秘的水晶球，然后，神奇的事情发生了。。。",
   desc: "就不告诉你！",
   icon: "https://cdn.paicaifu.com/webapp/image/Ballot/Balloticon.png",

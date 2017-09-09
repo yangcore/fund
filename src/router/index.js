@@ -57,10 +57,9 @@ let router=new Router({
 
 // simple history management
 const history = window.sessionStorage
-// history.removeItem('/')
+history.removeItem('/')
 let historyCount = history.getItem('count') * 1 || 0
 history.setItem('/index', 0)
-
 router.beforeEach(function (to, from, next) {
   store.commit('updateLoadingStatus', {isLoading: true})
   
@@ -84,10 +83,29 @@ router.beforeEach(function (to, from, next) {
     let url = to.path.split('http')[1]
     window.location.href = `http${url}`
   } else {
+
+      // let timer={time:(new Date()).getTime()};
+      // Object.assign(to.params, timer);
+  //  sessionStorage.setItem('count',count++)
+    // console.info(to,from);
+    // console.info(to.params.time+to.path ,'去',from.params.time+from.path,'从');
+    // if(from.params.time<(new Date()).getTime()) {
+    //   console.info('后退');
+    //   // this.transitionName = 'vux-pop-out'
+    // }
+    //   if (to.params.time > from.params.time) {
+    //     console.info('前进');
+    //     // this.transitionName = 'vux-pop-in';
+    //     // to.params.time=0 ;
+    //   } 
+    
     next()
   }
 })
-
+// Router.prototype.goBack = function () { 
+//   　　this.isBack = true
+//   　　window.history.go(-1)
+//   }
 router.afterEach(function (to) {
   window.scrollTo(0,0);
   store.commit('updateLoadingStatus', {isLoading: false})

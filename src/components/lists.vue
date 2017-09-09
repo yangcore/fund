@@ -4,7 +4,7 @@
                 <ul class="list" v-for="(item,index) in items"  :key="item.id" :class="{'ffeeaf':index%2 != 0}">
                     <li><span></span> <i>{{index+1}}</i></li>
                     <li>{{item.fundGroupName}}</li>
-                    <li>{{tool.fmoney(item.totalAgainst,2)}} </li>
+                    <li>{{Number(item.totalAgainst)}} </li>
                 </ul>
             </div>
         </div>
@@ -19,13 +19,13 @@
         }
     },
     mounted(){
-        // this.getInfo();
+        this.getInfo();
     },
     methods:{
         getInfo(){
             let _this = this;
             this.post({
-                url: "/fundUser/fundRankList/v1.0",
+                url: "/fundRank/fundRankList/v1.0",
                 success: function(e) {
                     if (e.code == "0000") {
                         _this.items=e.result.list;
@@ -44,6 +44,7 @@
     background: url("https://cdn.paicaifu.com/webapp/image/inapp/fund/index_04.png") no-repeat center 0;
     background-size:  750px 621px;
     padding-top: 80px;
+    margin: 0 auto;
 }
 .list_box{
     width: 92%;

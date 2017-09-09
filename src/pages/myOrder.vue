@@ -7,7 +7,8 @@
                 <tab-item @on-item-click="onItemClick">赎回</tab-item>
             </tab>
         </div>
-        <div class="list" v-for="list in lists" :key="list.id">
+        <div v-if="lists.length>0">
+        <div class="list" v-for="list in lists" :key="list.id" >
             <flexbox>
                 <flexbox-item>
                     <div class="flex-demo">
@@ -39,22 +40,10 @@
                 </flexbox-item>
             </flexbox>
         </div>
-        <!-- <div class="list">
-            <flexbox>
-                <flexbox-item>
-                    <div class="flex-demo">
-                        <p><span>申购</span>易方达消费行业 110022 </p>
-                        <p>2017-07-30 11:00:59 <span>份额:8000</span></p>
-                    </div>
-                </flexbox-item>
-                <flexbox-item :span="4">
-                    <div class="flex-right">
-                        <span>￥100,000</span>
-                        <div class="info">已确认</div>
-                    </div>
-                </flexbox-item>
-            </flexbox>
-        </div> -->
+    </div>
+        <div v-else class="kong">
+            暂无数据
+        </div> 
     </div>
 </template>
 <script>

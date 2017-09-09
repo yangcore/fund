@@ -5,8 +5,8 @@
             <!-- 总资产 -->
             <ul class="fund_list">
                 <li>总资产</li>
-                <li v-cloak>{{tool.fmoney(fundInfo.fundAmount,2)}}</li>
-                <li v-cloak>最新净值日期：{{fundInfo.buildDate}}</li>
+                <li v-cloak>{{Number(fundInfo.fundAmount)?Number(fundInfo.fundAmount):0}}</li>
+                <li v-cloak>最新净值日期：{{fundInfo.buildDate!=="null"?fundInfo.buildDate:'- -   - -'}}</li>
             </ul>
             <div class="info">
                 <div class="hr hr1"></div>
@@ -16,28 +16,28 @@
                         <div class="flex-demo">
                             <span>基金总市值</span>
                             <br>
-                            <span v-cloak>{{tool.fmoney(fundInfo.marketValueAmount,2)}}</span>
+                            <span v-cloak>{{Number(fundInfo.marketValueAmount)?Number(fundInfo.marketValueAmount):0}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>基金未确认金额</span>
                             <br>
-                            <span v-cloak>{{tool.fmoney(fundInfo.unSubmitAmount,2)}}</span>
+                            <span v-cloak>{{Number(fundInfo.unSubmitAmount)?Number(fundInfo.unSubmitAmount):0}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>基金总收益</span>
                             <br>
-                            <span v-cloak>{{tool.fmoney(fundInfo.fundAgainst,2)}}</span>
+                            <span v-cloak>{{Number(fundInfo.fundAgainst)?Number(fundInfo.fundAgainst):0}}</span>
                         </div>
                     </flexbox-item>
                 </flexbox>
             </div>
         </div>
         <p class="tips">*本活动所有计价单位均为拍财富虚拟货币拍金币</p>
-
+        <div v-if="fundList.length>0" style="padding-bottom:100px">
         <div class="card" v-for="list in fundList" :key="list.id" v-cloak>
             <h1>
                 <span>{{list.fundName}} {{list.fundCode}}</span>
@@ -50,26 +50,26 @@
                 <flexbox>
                     <flexbox-item>
                         <div class="flex-demo black">
-                            <span>{{tool.fmoney(list.fundMarketValue,2)}}</span>
+                            <span>{{Number(list.fundMarketValue)}}</span>
                             <br>
                             <span>最新市值</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo black" v-if="parseFloat(list.fundNetValue)!==0 && list.fundType!=='1005'">
-                            <span>{{tool.fmoney(list.fundNetValue,2)}} </span>
+                            <span>{{Number(list.fundNetValue)}} </span>
                             <br>
                             <span>最新净值</span>
                         </div>
                         <div class="flex-demo black" v-if="parseFloat(list.thousand)!==0&& list.fundType=='1005'">
-                            <span>{{tool.fmoney(list.thousand,2)}} </span>
+                            <span>{{Number(list.thousand)}} </span>
                             <br>
                             <span>万份收益</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo black">
-                            <span>{{tool.fmoney(list.fundInvestAmount,2)}}</span>
+                            <span>{{Number(list.fundInvestAmount)}}</span>
                             <br>
                             <span>持仓份额</span>
                         </div>
@@ -78,14 +78,14 @@
                 <flexbox>
                     <flexbox-item>
                         <div class="flex-demo black">
-                            <span :class="colorType(list.yestardayAgainst)">{{tool.fmoney(list.yestardayAgainst,2)}}</span>
+                            <span :class="colorType(list.yestardayAgainst)">{{Number(list.yestardayAgainst)}}</span>
                             <br>
                             <span>昨日收益</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo black">
-                            <span :class="colorType(list.AgainstAmount)">{{tool.fmoney(list.AgainstAmount,2)}}</span>
+                            <span :class="colorType(list.AgainstAmount)">{{Number(list.AgainstAmount)}}</span>
                             <br>
                             <span>总收益</span>
                         </div>
@@ -100,6 +100,7 @@
                 </flexbox>
             </div>
         </div>
+        </div>
     </div>
 </template>
 <script>
@@ -112,7 +113,7 @@ export default {
             fundInfo:{
                 fundAmount:0,
                 fundAgainst:0,
-                buildDate:'',
+                buildDate:'--',
                 unSubmitAmount:0,
                 marketValueAmount:0
             },

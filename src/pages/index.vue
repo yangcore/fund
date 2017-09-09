@@ -1,6 +1,8 @@
 <template>
     <div class="index">
-     <x-header :left-options="{showBack: false}"><router-link to='/myAccount'  slot="right">我的账户</router-link></x-header>
+     <x-header :left-options="{showBack: false}">
+         <span @click="intUser('myAccount')"  slot="right">我的账户</span>
+     </x-header>
         <div class="content">
             <p class="startime">
                 2017.8.24-9.34
@@ -37,19 +39,26 @@ export default {
        
     },
     methods: {
-         intUser() {
+         intUser(str) {
             let _this = this;
             this.post({
                 url: "/fund/initAcct/v1.0",
                 success: function(e) {
                     if (e.code == "0000") {
                         if (e.result.isHaveFundName == 1) {
-                            _this.$router.push('/fundPortfolio'); //已有基金组合名
+                            if(str=='myAccount'){
+                                _this.$router.push('/myAccount'); //已有基金组合名
+                            }else{
+                                 _this.$router.push('/fundPortfolio'); //已有基金组合名
+                            }
                         } else {
                             _this.$router.push('/');
                         }
                     }else if(e.code=='1004'){
-                          sessionStorage.setItem('redirectUrl','https://mdev.paicaifu.com/p/fund.html');
+                          sessionStorage.setItem('redirectUrl',window.location.origin+'/p/fund.html');
+                          if(str=='myAccount'){
+                            sessionStorage.setItem('myAccount','myAccount');
+                          }
                     }
                 }
             })

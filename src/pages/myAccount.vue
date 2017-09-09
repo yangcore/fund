@@ -15,16 +15,21 @@
             <router-link to="/fundPortfolio" slot="left"> 基金综合页 </router-link>
             <a slot="right" @click="maskShow=!maskShow">排行榜</a>
         </x-header>
-        <div class="chart">
+        <div class="chart" >
             <div id="chart">
             </div>
-            <p class="info" :class="[obj.percent=='&nbsp;&nbsp;'?top1:top2]">
+            <p class="info" :class="[obj.percent=='&nbsp;&nbsp;'?top1:top2]" v-if="pieLists.length!==0">
                 <span v-html="obj.name+'占比'">
                 </span>
                 <br>
                 <span v-html="obj.percent">
                 </span>
             </p>
+              <div v-if="pieLists.length==0" class="kong">
+                <div>
+                    暂无数据
+                </div>
+              </div>
         </div>
         <div style="background:white">
             <p class="totalAssets">{{ amount}}</p>
@@ -101,22 +106,13 @@ export default {
             amount: 0,//总资产
             totalAgainst: 0,//总收益
             profitRatio: 0,//盈亏比
-            buildDate: '',//成立时间
+            buildDate: '-- --',//成立时间
             canUseAmount: 0, // 可用余额
-            obj:{ name: "资产", percent: "&nbsp;&nbsp;" }
+            obj:{ name: "资产", percent: "&nbsp;&nbsp;&nbsp;&nbsp;" },
+            items:[]
         }
     },
     computed: {
-        items() {
-            return [
-                { user: 121212, sy: 2112 }
-                , { user: 121212, sy: 2112 },
-                { user: 121212, sy: 2112 }
-                , { user: 121212, sy: 2112 },
-                { user: 121212, sy: 2112 }
-                , { user: 121212, sy: 2112 }
-            ] //排行榜数据
-        }
     },
     components: {
         XHeader,
@@ -126,7 +122,7 @@ export default {
         lists,
         caifuBottom
     },
-    mounted() {
+    created() {
         this.getAccountInfo();
     },
     methods: {
@@ -150,11 +146,11 @@ export default {
                     if (e.code == "0000") {
                         let list = e.result.list;
                         if (list.length > 0) {
-                            _this.amount = _this.tool.fmoney(list[0].amount, 2);
-                            _this.totalAgainst = _this.tool.fmoney(list[0].totalAgainst, 2);
+                            _this.amount = Number(list[0].amount);
+                            _this.totalAgainst = Number(list[0].totalAgainst);
                             _this.profitRatio = list[0].profitRatio;
                             _this.buildDate = list[0].buildDate;
-                            _this.canUseAmount = _this.tool.fmoney(list[0].canUseAmount, 2);
+                            _this.canUseAmount = Number(list[0].canUseAmount);
                             for (let i = 0; i < list.length; i++) {
                                 let obj = {};
                                 obj.name = _this.tool.getType(list[i].fundType);

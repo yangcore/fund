@@ -82,6 +82,6 @@ export default {
             }
         }
         
-        return appToken.split('=')[1];
+        return unescape(appToken.split('=')[1]);
     }
 }

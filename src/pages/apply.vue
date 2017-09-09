@@ -32,7 +32,7 @@
             <div class="alert_info">
                 申购产品：{{applyResult.fundName}}
                 <br> 申购金额：
-                <span style="color:#4a80ff">{{ tool.fmoney(applyResult.amount,2)}}</span>
+                <span style="color:#4a80ff">{{ Number(applyResult.amount)}}</span>
                 <br> 预计确认日期：{{applyResult.verifyDate}}
             </div>
             <div class="bottom_btn">
