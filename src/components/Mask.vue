@@ -14,7 +14,7 @@
 </script>
 <style lang="less" scoped>
 .Mask{
-    width:100%;
+    width:750px;
     height:100%;
     background:#f7faff;
     position: absolute;
