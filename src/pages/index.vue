@@ -36,7 +36,6 @@ export default {
         XHeader
     },
     mounted() {
-       
     },
     methods: {
          intUser(str) {

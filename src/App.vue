@@ -34,14 +34,17 @@ export default {
     })
   },
   mounted() {
-    var _this=this;
-    sessionStorage.setItem('index','index');
-    document.getElementsByTagName('body')[0].onhashchange=function(){
-      if(!sessionStorage.getItem('reload')){
-        if(window.location.href.indexOf('index')>0){
-          sessionStorage.setItem('reload','reload');
-          sessionStorage.setItem('token',_this.tool.getUrlAppToken());
-          window.location.href=window.location.origin.indexOf('127')>=0?(window.location.origin):(window.location.origin+"/p/fund.html");
+     var _this = this;
+     let count=0;
+    document.getElementsByTagName('body')[0].onhashchange = function() {
+      if (_this.tool.isApp()) {
+        if (!sessionStorage.getItem('reload')) {
+          sessionStorage.setItem('hashcount',count++);
+          if (window.location.hash.indexOf('index') > 0 && sessionStorage.getItem("hashcount")=='0') {
+            sessionStorage.setItem('reload', 'reload');
+            sessionStorage.setItem('token', _this.tool.getUrlAppToken());
+            window.location.href = window.location.origin.indexOf('127') >= 0 ? (window.location.origin) : (window.location.origin + "/p/fund.html");
+          }
         }
       }
     }
@@ -152,6 +155,7 @@ export default {
   opacity: 0;
   transform: translate3d(-100%, 0, 0);
 }
+
 
 .fundInfo .flex-demo2 {
   line-height: normal !important;

@@ -1,5 +1,5 @@
 <template>
-    <div class="loginAfter">
+    <div class="loginAfter" v-show="loginAfterShow">
         <div class="top">
             <h1>登录/注册成功！</h1>
             <p>100万元基金模拟体验金已发放到您的虚拟账户!</p>
@@ -22,7 +22,8 @@ export default {
         return {
             error: false,
             errorMsg: "请输入11个字符以内文字/字母/数字",
-            fundName: ''
+            fundName: '',
+            loginAfterShow:false
         }
     },
     computed: {
@@ -32,7 +33,7 @@ export default {
         caifuBottom
     },
     mounted() {
-        this.intUser();
+            this.intUser();
     },
     methods: {
         sure() {
@@ -53,11 +54,12 @@ export default {
                 },
                 success: function(e) {
                     if (e.code == "0000") {
-                        if(sessionStorage.getItem('myAccount')){
-                                _this.$router.push('/myAccount');
-                                sessionStorage.removeItem('myAccount');
-                        }else{
-                                _this.$router.push('/fundPortfolio'); //已有基金组合名
+                         sessionStorage.setItem('flag', 'tiao');
+                        if (sessionStorage.getItem('myAccount')) {
+                            _this.$router.push('/myAccount');
+                            sessionStorage.removeItem('myAccount');
+                        } else {
+                            _this.$router.push('/fundPortfolio'); //已有基金组合名
                         }
                     }else if (e.code == "1002") {
                         _this.errorMsg = "基金组合名已被占用";
@@ -75,16 +77,23 @@ export default {
                 url: "/fund/initAcct/v1.0",
                 success: function(e) {
                     if (e.code == "0000") {
-                        let _str = e.result.loginName.substr(3, 4);
+                        let _str = e.result.loginName.substr(0, 3),
+                           _str1=e.result.loginName.substr(7,11);
                         if (e.result.isHaveFundName == 1) {
-                            if(sessionStorage.getItem('myAccount')){
-                                _this.$router.push('/myAccount');
-                                sessionStorage.removeItem('myAccount');
+                            if (!sessionStorage.getItem('flag')) {
+                                sessionStorage.setItem('flag', 'tiao');
+                                if (sessionStorage.getItem('myAccount')) {
+                                    _this.$router.push('/myAccount');
+                                    sessionStorage.removeItem('myAccount');
+                                } else {
+                                    _this.$router.push('/fundPortfolio'); //已有基金组合名
+                                }
                             }else{
-                                _this.$router.push('/fundPortfolio'); //已有基金组合名
+                                _this.$router.push('/index');
                             }
                         } else {
-                            _this.fundName = e.result.loginName.replace(new RegExp(_str, 'g'), "****");
+                            _this.loginAfterShow=true;
+                            _this.fundName = _str+'****'+_str1;
                         }
                     }
                 }

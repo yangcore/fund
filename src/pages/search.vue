@@ -40,6 +40,12 @@ export default {
         setTimeout(() => {
             document.getElementById('search').focus();
         }, 500)
+       document.onkeydown = (e) =>{
+            var keyNum = window.event ? e.keyCode : e.which;
+            if (keyNum == 13) {
+              this.searchInfo();
+            }
+        }
     },
     methods: {
         clear(){
@@ -115,6 +121,9 @@ export default {
 
 .lists {
     margin-top: 30px;
+    height: 430px;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .lists a:last-child {

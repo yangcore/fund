@@ -78,7 +78,7 @@ Vue.prototype.getItemInfo=function(){
   }
   let token = {
       token:tokenInfo,
-      // token:"04489bc3bm934aa78078ebf1ca2e4746",
+      // token:"17ac1b29516m4c6cbcmac64ee05c40em",
       // token:'m37fm8c92a5c43f49b56c3f602a645m5',
       isApp:tool.isApp()?1:0
   };
