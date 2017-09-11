@@ -46,15 +46,15 @@
                     </flexbox-item>
                     <flexbox-item :span="1.3/6">
                         <div class="flex-demo2 lin120">
-                            {{parseFloat(list.value==null?list.tenThousandReturns:list.value)}}
+                            {{Number(list.value==null?list.tenThousandReturns:list.value)}}
                         </div>
                     </flexbox-item>
                     <flexbox-item :span="1.3/6">
-                        <div class="flex-demo2 _ff5255 lin120" v-if="parseFloat(list.dailyIncrease==null?list.sevenDaysRate:list.dailyIncrease)>=0">
-                            {{parseFloat(list.dailyIncrease==null?list.sevenDaysRate:list.dailyIncrease)}}%
+                        <div class="flex-demo2 _ff5255 lin120" v-if="Number(list.dailyIncrease==null?list.sevenDaysRate:list.dailyIncrease)>=0">
+                            {{Number(list.dailyIncrease==null?list.sevenDaysRate:list.dailyIncrease)}}%
                         </div>
-                        <div class="flex-demo2 _36cca4 lin120" v-if="parseFloat(list.dailyIncrease==null?list.sevenDaysRate:list.dailyIncrease)<0">
-                            {{parseFloat(list.dailyIncrease==null?list.sevenDaysRate:list.dailyIncrease)}}%
+                        <div class="flex-demo2 _36cca4 lin120" v-if="Number(list.dailyIncrease==null?list.sevenDaysRate:list.dailyIncrease)<0">
+                            {{Number(list.dailyIncrease==null?list.sevenDaysRate:list.dailyIncrease)}}%
                         </div>
                     </flexbox-item>
                     <flexbox-item :span="1.4/6">

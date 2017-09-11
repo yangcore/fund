@@ -4,7 +4,7 @@
         <div style="background:white;padding-bottom:20px;">
             <ul class="fund_list">
                 <li>总资产</li>
-                <li>{{Number(demandInfo.amount)}}</li>
+                <li>{{numberComma(Number(demandInfo.amount))}}</li>
             </ul>
 
             <div class="info">
@@ -16,21 +16,21 @@
                         <div class="flex-demo">
                             <span>持仓份额</span>
                             <br>
-                            <span>{{Number(demandInfo.InvestAmount)}}</span>
+                            <span>{{numberComma(Number(demandInfo.InvestAmount))}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>万份收益</span>
                             <br>
-                            <span>{{Number(demandInfo.thousandReturns)}}</span>
+                            <span>{{numberComma(Number(demandInfo.thousandReturns))}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>未确认金额</span>
                             <br>
-                            <span>{{Number(demandInfo.unSubmitAmount)}}</span>
+                            <span>{{numberComma(Number(demandInfo.unSubmitAmount))}}</span>
                         </div>
                     </flexbox-item>
                 </flexbox>
@@ -40,14 +40,14 @@
                         <div class="flex-demo">
                             <span>昨日收益</span>
                             <br>
-                           <span>{{Number(demandInfo.yestardayAgainst)}}</span>
+                           <span>{{numberComma(Number(demandInfo.yestardayAgainst))}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>总收益</span>
                             <br>
-                             <span>{{Number(demandInfo.demandAgainst)}}</span>
+                             <span>{{numberComma(Number(demandInfo.demandAgainst))}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>

@@ -5,7 +5,7 @@
             <!-- 总资产 -->
             <ul class="fund_list">
                 <li>总资产</li>
-                <li v-cloak>{{Number(fundInfo.fundAmount)?Number(fundInfo.fundAmount):0}}</li>
+                <li v-cloak>{{numberComma(Number(fundInfo.fundAmount)?Number(fundInfo.fundAmount):0)}}</li>
                 <li v-cloak>最新净值日期：{{fundInfo.buildDate!=="null"?fundInfo.buildDate:'- -   - -'}}</li>
             </ul>
             <div class="info">
@@ -16,21 +16,21 @@
                         <div class="flex-demo">
                             <span>基金总市值</span>
                             <br>
-                            <span v-cloak>{{Number(fundInfo.marketValueAmount)?Number(fundInfo.marketValueAmount):0}}</span>
+                            <span v-cloak>{{numberComma(Number(fundInfo.marketValueAmount)?Number(fundInfo.marketValueAmount):0)}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>基金未确认金额</span>
                             <br>
-                            <span v-cloak>{{Number(fundInfo.unSubmitAmount)?Number(fundInfo.unSubmitAmount):0}}</span>
+                            <span v-cloak>{{numberComma(Number(fundInfo.unSubmitAmount)?Number(fundInfo.unSubmitAmount):0)}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>基金总收益</span>
                             <br>
-                            <span v-cloak>{{Number(fundInfo.fundAgainst)?Number(fundInfo.fundAgainst):0}}</span>
+                            <span v-cloak>{{numberComma(Number(fundInfo.fundAgainst)?Number(fundInfo.fundAgainst):0)}}</span>
                         </div>
                     </flexbox-item>
                 </flexbox>
@@ -56,12 +56,12 @@
                         </div>
                     </flexbox-item>
                     <flexbox-item>
-                        <div class="flex-demo black" v-if="parseFloat(list.fundNetValue)!==0 && list.fundType!=='1005'">
+                        <div class="flex-demo black" v-if="Number(list.fundNetValue)!==0 && list.fundType!=='1005'">
                             <span>{{Number(list.fundNetValue)}} </span>
                             <br>
                             <span>最新净值</span>
                         </div>
-                        <div class="flex-demo black" v-if="parseFloat(list.thousand)!==0&& list.fundType=='1005'">
+                        <div class="flex-demo black" v-if="Number(list.thousand)!==0&& list.fundType=='1005'">
                             <span>{{Number(list.thousand)}} </span>
                             <br>
                             <span>万份收益</span>

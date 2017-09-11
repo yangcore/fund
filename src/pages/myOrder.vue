@@ -18,7 +18,7 @@
                             {{list.fundName}} {{list.fundCode}} </p>
                         <p>{{list.fundDateTime.split('.')[0]}}
                         <span v-if="Number(list.fundNumAmount) ||Number(list.fundNumAmount)==0 ">份额:
-                            {{parseFloat(list.fundNumAmount) }}
+                            {{numberComma(Number(list.fundNumAmount)) }}
                         </span>
                         <span v-else>份额:
                             {{list.fundNumAmount }}
@@ -29,7 +29,7 @@
                 <flexbox-item :span="3">
                     <div class="flex-right">
                         <span v-if="Number(list.fundAmount) ||Number(list.fundAmount)==0 ">
-                            {{parseFloat(list.fundAmount)}}
+                            {{numberComma(Number(list.fundAmount))}}
                         </span>
                         <span v-else>
                             {{list.fundAmount }}

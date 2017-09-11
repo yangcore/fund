@@ -32,7 +32,7 @@
               </div>
         </div>
         <div style="background:white">
-            <p class="totalAssets">{{ amount}}</p>
+            <p class="totalAssets">{{amount}}</p>
             <p>总资产</p>
             <div class="center-info">
                 <div>
@@ -94,6 +94,7 @@ import ymask from '../components/Mask'
 import lists from '../components/lists'//排行榜组件
 import pie from '../components/pie' //饼图
 import caifuBottom from '../components/caifuBottom'
+// import { numberComma } from 'vux'
 export default {
     name: 'myAccount',
     data() {
@@ -124,6 +125,7 @@ export default {
     },
     created() {
         this.getAccountInfo();
+        this.getFundTotalInfo();
     },
     methods: {
         chartInit(data) {
@@ -146,11 +148,6 @@ export default {
                     if (e.code == "0000") {
                         let list = e.result.list;
                         if (list.length > 0) {
-                            _this.amount = Number(list[0].amount);
-                            _this.totalAgainst = Number(list[0].totalAgainst);
-                            _this.profitRatio = list[0].profitRatio;
-                            _this.buildDate = list[0].buildDate;
-                            _this.canUseAmount = Number(list[0].canUseAmount);
                             for (let i = 0; i < list.length; i++) {
                                 let obj = {};
                                 obj.name = _this.tool.getType(list[i].fundType);
@@ -158,9 +155,23 @@ export default {
                                 _this.pieLists.push(obj);
                             }
                             _this.chartInit(_this.pieLists);
-                        }else{
-
                         }
+                    }
+                }
+            })
+        },
+        getFundTotalInfo(){
+            let _this = this;
+            this.post({
+                url: "/fundUser/fundTotalInfo/v1.0",
+                success: function(e) {
+                    if (e.code == "0000") {
+                        let FundUserDto = e.result.FundUserDto;
+                            _this.amount = _this.numberComma(Number(FundUserDto.amount));
+                            _this.totalAgainst = _this.numberComma(Number(FundUserDto.totalAgainst));
+                            _this.profitRatio = FundUserDto.profitRatio;
+                            _this.buildDate = FundUserDto.buildDate;
+                            _this.canUseAmount = _this.numberComma(Number(FundUserDto.canUseAmount));
                     }
                 }
             })

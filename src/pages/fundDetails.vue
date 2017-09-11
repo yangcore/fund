@@ -13,13 +13,13 @@
                 <flexbox-item>
                     <div class="flex-demo">
                         <p>最新净值</p>
-                        <span style="color:#4a80ff" v-cloak>{{parseFloat(summary.value==NaN?0:summary.value)}}</span>
+                        <span style="color:#4a80ff" v-cloak>{{Number(summary.value==NaN?0:summary.value)}}</span>
                     </div>
                 </flexbox-item>
                 <flexbox-item v-if="$route.query.type!=='1005' && $route.query.type!=='1006'">
                     <div class="flex-demo">
                         <p>日涨幅值</p>
-                        <span v-if="summary.dailyIncrease>=0" :class="colorType(summary.dailyIncrease==NaN?0:summary.dailyIncrease)" v-cloak>{{parseFloat(summary.dailyIncrease==NaN?0:summary.dailyIncrease)}}%</span>
+                        <span v-if="summary.dailyIncrease>=0" :class="colorType(summary.dailyIncrease==NaN?0:summary.dailyIncrease)" v-cloak>{{Number(summary.dailyIncrease==NaN?0:summary.dailyIncrease)}}%</span>
                     </div>
                 </flexbox-item>
             </flexbox>
@@ -33,20 +33,20 @@
                         <div v-if="$route.query.type!=='1005' && $route.query.type!=='1006'">累计净值</div>
                         <div v-else>七日年化率</div>
 
-                        <span v-if="$route.query.type!=='1005' && $route.query.type!=='1006'">{{parseFloat(summary.totalNetValue)}}</span>
-                        <span v-else>{{parseFloat(summary.sevenDaysRate)}}%</span>
+                        <span v-if="$route.query.type!=='1005' && $route.query.type!=='1006'">{{Number(summary.totalNetValue)}}</span>
+                        <span v-else>{{Number(summary.sevenDaysRate)}}%</span>
                     </div>
                 </flexbox-item>
                 <flexbox-item>
                     <div class="flex-demo3">
                         <div>近1个月</div>
-                        <span :class="colorType(summary.oneMonth)">{{parseFloat(summary.oneMonth)}}%</span>
+                        <span :class="colorType(summary.oneMonth)">{{Number(summary.oneMonth)}}%</span>
                     </div>
                 </flexbox-item>
                 <flexbox-item>
                     <div class="flex-demo3" style="border:none">
                         <div>近3个月</div>
-                        <span :class="colorType(summary.threeMonths)">{{parseFloat(summary.threeMonths)}}%</span>
+                        <span :class="colorType(summary.threeMonths)">{{Number(summary.threeMonths)}}%</span>
                     </div>
                 </flexbox-item>
             </flexbox>
@@ -54,19 +54,19 @@
                 <flexbox-item>
                     <div class="flex-demo3">
                         <div>近一年</div>
-                        <span :class="colorType(summary.oneYear)">{{parseFloat(summary.oneYear)}}%</span>
+                        <span :class="colorType(summary.oneYear)">{{Number(summary.oneYear)}}%</span>
                     </div>
                 </flexbox-item>
                 <flexbox-item>
                     <div class="flex-demo3">
                         <div>近三年</div>
-                        <span :class="colorType(summary.threeYears)">{{parseFloat(summary.threeYears)}}%</span>
+                        <span :class="colorType(summary.threeYears)">{{Number(summary.threeYears)}}%</span>
                     </div>
                 </flexbox-item>
                 <flexbox-item>
                     <div class="flex-demo3" style="border:none">
                         <div>成立以来</div>
-                        <span :class="colorType(summary.sinceFunding)">{{parseFloat(summary.sinceFunding)}}%</span>
+                        <span :class="colorType(summary.sinceFunding)">{{Number(summary.sinceFunding)}}%</span>
                     </div>
                 </flexbox-item>
             </flexbox>

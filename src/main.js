@@ -9,12 +9,13 @@ import tool from './tool/tool'
 Vue.config.productionTip = true
 import FastClick from 'fastclick'
 FastClick.attach(document.body)
-import { AjaxPlugin, LoadingPlugin, AlertPlugin } from 'vux'
+import { AjaxPlugin, LoadingPlugin, AlertPlugin ,numberComma} from 'vux'
 Vue.use(AjaxPlugin);
 Vue.use(LoadingPlugin);
 Vue.use(AlertPlugin);
 import { WechatPlugin } from 'vux'
 Vue.use(WechatPlugin)
+
 import qs from 'qs'
 const baseUrl = window.location.origin.indexOf('127')>=0?'https://mdev.paicaifu.com':window.location.origin;
 const loginTimeOutErrorCode = 'login_timeout_error';
@@ -22,6 +23,7 @@ const loginTimeOutErrorCode = 'login_timeout_error';
 Vue.prototype.baseUrl = baseUrl;
 Vue.prototype.tool = tool;
 //公用方法
+Vue.prototype.numberComma=numberComma;//数字格式化金额
 Vue.prototype.http = function (opts) {
   let vue = this
   vue.$vux.loading.show({
@@ -77,8 +79,8 @@ Vue.prototype.getItemInfo=function(){
     tokenInfo=localStorage.getItem("token")?localStorage.getItem("token"):'';
   }
   let token = {
-      token:tokenInfo,
-      // token:"17ac1b29516m4c6cbcmac64ee05c40em",
+      // token:tokenInfo,
+      token:"0e21e416m10e4ce5a35810c680c78e53",
       // token:'m37fm8c92a5c43f49b56c3f602a645m5',
       isApp:tool.isApp()?1:0
   };
