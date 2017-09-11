@@ -57,7 +57,8 @@ export default {
             widthinput: "70px",
             btnMsg: "购买",
             applyResult: {},
-            buyBackground: 'buy2'
+            buyBackground: 'buy2',
+            fvaDemandAssets:0//拍活期资产
         }
     },
     computed: {
@@ -80,6 +81,7 @@ export default {
                 success: function(e) {
                     if (e.code == "0000") {
                         _this.fvaBalance = e.result.acctMsg.fvaBalance;
+                        _this.fvaDemandAssets=e.result.acctMsg.fvaDemandAssets;
                     }
                 }
             })
@@ -121,6 +123,9 @@ export default {
             }
             if (n > this.fvaBalance) {
                 this.btnMsg = "余额不足";
+                this.buyBackground = 'buy2';
+            } else if(this.$route.query.code=='888888' && (n+this.fvaDemandAssets)>500000){
+                this.btnMsg = "超过限额";
                 this.buyBackground = 'buy2';
             } else {
                 this.btnMsg = "购买"

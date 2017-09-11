@@ -79,9 +79,7 @@ Vue.prototype.getItemInfo=function(){
     tokenInfo=localStorage.getItem("token")?localStorage.getItem("token"):'';
   }
   let token = {
-      // token:tokenInfo,
-      token:"0e21e416m10e4ce5a35810c680c78e53",
-      // token:'m37fm8c92a5c43f49b56c3f602a645m5',
+      token:tokenInfo,
       isApp:tool.isApp()?1:0
   };
   return token;
@@ -121,16 +119,16 @@ Vue.prototype.post = function (opts) {
 }
 const wx = Vue.wechat;
 const t = {
-  title: "我捡到一个神秘的水晶球，然后，神奇的事情发生了。。。",
-  desc: "就不告诉你！",
+  title: "给你100万，在这里你就是百万富翁！",
+  desc: "来跟我一起参加基金模拟大赛，最高可赢188元现金！",
   link: baseUrl+"/p/fund.html#/index",
-  imgUrl: "https://cdn.paicaifu.com/webapp/image/Ballot/Balloticon.png"
+  imgUrl: "https://cdn.paicaifu.com/webapp/image/inapp/fund/shareicon.jpg"
 }
 const appshare_config = {
   shareUrl:baseUrl+"/p/fund.html#/index",
-  title: "我捡到一个神秘的水晶球，然后，神奇的事情发生了。。。",
-  desc: "就不告诉你！",
-  icon: "https://cdn.paicaifu.com/webapp/image/Ballot/Balloticon.png",
+  title: "给你100万，在这里你就是百万富翁！",
+  desc: "来跟我一起参加基金模拟大赛，最高可赢188元现金！",
+  icon: "https://cdn.paicaifu.com/webapp/image/inapp/fund/shareicon.jpg",
   shareChannel: "1,2,3,4,5"
 }
 Vue.prototype.appshare_config=appshare_config;

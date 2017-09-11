@@ -2,9 +2,9 @@
     <div class="lists">
             <div class="list_box">
                 <ul class="list" v-for="(item,index) in items"  :key="item.id" :class="{'ffeeaf':index%2 != 0}">
-                    <li><span></span> <i>{{index+1}}</i></li>
+                    <li><span v-if="index<=2"></span> <i>{{index+1}}</i></li>
                     <li>{{item.fundGroupName}}</li>
-                    <li>{{Number(item.totalAgainst)}} </li>
+                    <li>{{ numberComma(Number(item.totalAgainst))}} </li>
                 </ul>
             </div>
         </div>
@@ -98,6 +98,16 @@
     float: left;
     font-style: normal;
     margin-left: 20px;
+}
+.lists ul:nth-child(1) i,.lists ul:nth-child(2) i,.lists ul:nth-child(3) i{
+  width:inherit;
+    display: inherit;
+    margin:inherit;
+}
+.list li i{
+        width: 100%;
+    display: block;
+    margin: 0 auto;
 }
 .list li{
     float: left;

@@ -15,7 +15,7 @@
             </div>
             <div class="balance money">
                 <span>赎回份额</span>
-                <input type="number" onkeyup="value=value.replace(/[^\d.]/g,'')" v-model="amount">
+                <input type="number" @keyup="clearNoNum" v-model="amount">
             </div>
         </div>
         <p :class="buyBackground" @click="redeem">{{btnMsg}}</p>
@@ -109,6 +109,19 @@ export default {
                     }
                 }
             })
+        },
+        clearNoNum() {
+                let obj=this.amount;
+                if(obj.replace){
+                    obj = obj.replace(/[^\d.]/g, "");  //清除“数字”和“.”以外的字符   
+                    obj = obj.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的   
+                    obj = obj.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+                    obj = obj.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');//只能输入两个小数   
+                    if (obj.indexOf(".") < 0 && obj != "") {//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额  
+                        obj = parseFloat(obj);
+                    }
+                }
+                this.amount=obj;
         }
     }, watch: {
         amount: function(n, o) {

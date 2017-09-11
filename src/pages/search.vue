@@ -9,13 +9,14 @@
             <span @click="searchInfo">搜索</span>
         </div>
 
-        <div class="lists" v-if="lists.length>0">
+        <div class="lists" v-if="lists.length>0" id="searchlist">
             <router-link :to="{path:'/fundPortfolio/fundDetails',query:{code:list.code,name:list.name,type:list.type}}" v-for="list in lists" :key="list.id">
                 <p class="list">{{list.name}} &nbsp;&nbsp;&nbsp;&nbsp;{{list.code}}</p>
             </router-link>
         </div>
+         <p class="more" v-show="showmore" v-if="lists.length>10" @click="more">&nbsp;&nbsp;查看更多></p>
         <div v-if="showSpace" style="width:100%;padding:30px 0;text-align:center;font-size:16px;color:#888">
-            搜索暂无结果
+           您的关键字有误或者该基金尚未被纳入
         </div>
     </div>
 </template>
@@ -27,7 +28,8 @@ export default {
         return {
             value: "",
             lists: [],
-            showSpace:false
+            showSpace:false,
+            showmore:false
         }
     },
     computed: {
@@ -63,15 +65,25 @@ export default {
                 success: function(e) {
                     if (e.code == "0000") {
                         if( e.result.list){
-                             _this.lists = e.result.list;
-                             console.info(e.result.list.length);
-                              if(e.result.list.length==0){
-                                  _this.showSpace=true;
-                              }
+                            _this.lists = e.result.list;
+                            if(e.result.list.length==0){
+                                _this.showSpace=true;
+                            }else{
+                                _this.showSpace=false;
+                            }
+                            if(e.result.list.length>10){
+                                _this.showmore=true;
+                            }else{
+                                _this.showmore=false;
+                            }
                         }
                     }
                 }
             })
+        },
+        more(){
+            document.getElementById('searchlist').style="height:auto";
+            this.showmore=false;
         }
     }
 }
@@ -121,15 +133,17 @@ export default {
 
 .lists {
     margin-top: 30px;
-    height: 430px;
+    height: 890px;
     overflow: hidden;
-    overflow-y: scroll;
 }
 
 .lists a:last-child {
     display: block;
     overflow: hidden;
     border-bottom: 1Px solid #d7d7d7;
+}
+.more{
+    text-align:center;font-size:26px;color: #313131;
 }
 </style>
 

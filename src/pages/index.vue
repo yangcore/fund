@@ -1,5 +1,6 @@
 <template>
     <div class="index">
+        <ymask :maskShow="maskShow"></ymask>
      <x-header :left-options="{showBack: false}">
          <span @click="intUser('myAccount')"  slot="right">我的账户</span>
      </x-header>
@@ -11,8 +12,13 @@
             <div href="javascript:;" class="play" @click="intUser"></div> 
         </div>
         <div class="content1">
-            <p class="rule_btn">活动规则>></p>
+            <p class="rule_btn" @click="maskShow=!maskShow">活动规则>></p>
         </div>
+        <div class="rule_box" v-show="maskShow">
+            <div class="rule" >
+            </div>
+        </div>
+        <span class="close" v-show="maskShow" @click="maskShow=!maskShow"></span>
         <!-- 排行榜 -->
         <h1 class="title"></h1>
         <lists>
@@ -23,17 +29,20 @@
 <script>
 import lists from '../components/lists'//排行榜组件
 import XHeader from '../../node_modules/vux/src/components/x-header/index'
+import ymask from '../components/Mask'
 export default {
     name: 'index',
     data() {
         return {
+            maskShow:false
         }
     },
     computed:{
     },
     components: {
         lists,
-        XHeader
+        XHeader,
+        ymask
     },
     mounted() {
     },
