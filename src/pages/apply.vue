@@ -201,6 +201,7 @@ export default {
     margin: 0 auto;
     border-radius: 3Px;
     margin-top: 60px;
+    font-size: 30px;
 }
 
 .buy2 {
@@ -213,6 +214,7 @@ export default {
     margin: 0 auto;
     border-radius: 3Px;
     margin-top: 60px;
+    font-size: 30px;
 }
 
 .tips {
