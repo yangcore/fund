@@ -109,7 +109,7 @@ export default {
             profitRatio: 0,//盈亏比
             buildDate: '-- --',//成立时间
             canUseAmount: 0, // 可用余额
-            obj:{ name: "资产", percent: "&nbsp;&nbsp;&nbsp;&nbsp;" },
+            obj:{ name: "资产", percent: "&nbsp;&nbsp;" },
             items:[]
         }
     },

@@ -37,22 +37,34 @@ export default {
      var _this = this;
      let count=0;
     document.getElementsByTagName('body')[0].onhashchange = function() {
-      if (_this.tool.isApp()) {
-        if (!sessionStorage.getItem('reload')) {
-          sessionStorage.setItem('hashcount',count++);
-          if (window.location.hash.indexOf('index') > 0 && sessionStorage.getItem("hashcount")=='0') {
-            sessionStorage.setItem('reload', 'reload');
-            sessionStorage.setItem('token', _this.tool.getUrlAppToken());
-            window.location.href = window.location.origin.indexOf('127') >= 0 ? (window.location.origin) : (window.location.origin + "/p/fund.html");
-          }
-        }
-      }
-    }
+       if (_this.tool.isApp()) {
+         let url = window.location.href;
+         if (!sessionStorage.getItem('reload') && !sessionStorage.getItem('goAppShare')) {
+           sessionStorage.setItem('hashcount', count++);
+           if (window.location.hash.indexOf('index') > 0 && sessionStorage.getItem("hashcount") == '0') {
+             sessionStorage.setItem('reload', 'reload');
+             sessionStorage.setItem('token', _this.tool.getUrlAppToken());
+             window.location.href = window.location.origin.indexOf('127') >= 0 ? (window.location.origin) : (window.location.origin + "/p/fund.html");
+           }
+         }
+         if (sessionStorage.getItem('goAppShare')) {
+           sessionStorage.removeItem('goAppShare');
+           if (url.split('appShare')[url.split('appShare').length - 1].charAt(1) == "Y") {
+             _this.shareAdd();
+           } else if (url.split('appShare')[url.split('appShare').length - 1].charAt(1) == "N") {
+             console.info('app分享失败');
+           }
+         }
+       }
+     }
   },
   methods: {
     share() {
       if (this.tool.isApp()) {
-        window.location.href = "paicaifu://share?" + JSON.stringify(this.appshare_config)
+        sessionStorage.setItem('goAppShare','goAppShare');
+        sessionStorage.setItem('goAppShare1','goAppShare'); //ios特殊处理flag
+        sessionStorage.setItem('goAppShareUrl',window.location.href) //ios特殊处理flag
+        window.location.href = "paicaifu://share?" + JSON.stringify(this.appshare_config);
       } else {
         document.getElementsByClassName("shareTips")[0].classList.add("flash");
         document.getElementsByClassName("shareTips")[0].classList.add("animated");

@@ -40,7 +40,7 @@
         <div v-if="fundList.length>0" style="padding-bottom:100px">
         <div class="card" v-for="list in fundList" :key="list.id" v-cloak>
             <h1>
-                <span>{{list.fundName}} {{list.fundCode}}</span>
+                <span>{{list.fundName}}</span> <span>{{list.fundCode}}</span>
                 <div>
                     <router-link :to="{path:'/fundPortfolio/redeem',query:{code:list.fundCode,name:list.fundName,type:list.fundType}}" class="redeem">赎回</router-link>
                      <router-link class="buy" :to="{path:'/fundPortfolio/apply',query:{code:list.fundCode,name:list.fundName,type:list.fundType}}">购买</router-link>

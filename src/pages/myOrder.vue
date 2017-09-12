@@ -13,9 +13,19 @@
                 <flexbox-item>
                     <div class="flex-demo">
                         <p>
-                            <span v-if="list.Type=='1'">申购</span>
-                            <span v-else>赎回</span>
-                            {{list.fundName}} {{list.fundCode}} </p>
+                            <span v-if="list.Type=='1'" style="display:block;float:left">申购</span>
+                            <span v-else style="display:block;float:left">赎回</span>
+                            <span style="display: block;float:left;
+                            width: 55%;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;">
+                            {{list.fundName}}
+                            </span>
+                            <span style="display: block;float:left">
+                            {{list.fundCode}}
+                            </span>
+                        </p>
                         <p>{{list.fundDateTime.split('.')[0]}}
                         <span v-if="Number(list.fundNumAmount) ||Number(list.fundNumAmount)==0 ">份额:
                             {{numberComma(Number(list.fundNumAmount)) }}

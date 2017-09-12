@@ -83,5 +83,19 @@ export default {
         }
         
         return unescape(appToken.split('=')[1]);
+    },
+    getUrlParms(str){
+        let url=window.location.href;
+        let parms='';
+        if(url.split('?').length>1){
+            let arr=url.split('?')[1].split('&');
+            for(var i=0;i<arr.length;i++){
+                if(arr[i].indexOf(str)>=0){
+                    parms=arr[i];
+                    break;
+                }
+            }
+        }
+        return unescape(parms.split('=')[1]);
     }
 }

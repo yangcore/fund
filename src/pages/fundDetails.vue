@@ -71,7 +71,7 @@
                 </flexbox-item>
             </flexbox>
         </div>
-        <p class="time">成立日期:{{detail.fbiBuildDate}}&nbsp;&nbsp;&nbsp;&nbsp; 基金经理:{{detail.fbiFundManager}}</p>
+        <p class="time">成立日期:{{detail.fbiBuildDate.split(' ')[0]}}&nbsp;&nbsp;&nbsp;&nbsp; 基金经理:{{detail.fbiFundManager}}</p>
         <div class="bottom">
             <p>单位净值走势:</p>
             <p>

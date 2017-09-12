@@ -103,10 +103,19 @@
     padding: 20px 30px 20px 30px;
     overflow: hidden;
     line-height:  0.60333rem;
+    font-weight: normal;
 }
-.card h1 span{
+.card h1 span:nth-child(1){
     float: left;
-    font-size: 28px
+    font-size: 30px;
+    width: 44%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.card h1 span:nth-child(2){
+    float: left;
+    font-size: 30px;
 }
 .card h1 div{
     float: right;

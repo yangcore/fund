@@ -89,7 +89,13 @@ export default {
                                     _this.$router.push('/fundPortfolio'); //已有基金组合名
                                 }
                             }else{
-                                _this.$router.push('/index');
+                                if(sessionStorage.getItem('goAppShare1') && sessionStorage.getItem('goAppShareUrl')){//如果有分享flag
+                                    sessionStorage.removeItem('goAppShare1');
+                                    window.location.href= sessionStorage.getItem('goAppShareUrl');
+                                }else{
+                                     _this.$router.push('/index');
+                                }
+                               
                             }
                         } else {
                             _this.loginAfterShow=true;

@@ -27,14 +27,21 @@
         <p class="tips">
             <span>温馨提示:</span>交易日15：00前申购，下一交易日确认金额</p>
         <ymask :maskShow="maskShow"></ymask>
-        <div class="alert" v-show="maskShow">
-            <p>订单提交成功，交易确认中</p>
-            <div class="alert_info">
-                申购产品：{{applyResult.fundName}}
-                <br> 申购金额：
-                <span style="color:#4a80ff">{{ Number(applyResult.amount)}}</span>
-                <br> 预计确认日期：{{applyResult.verifyDate}}
-            </div>
+        
+    <div class="alert" v-show="maskShow">
+        <p>订单提交成功，交易确认中</p>
+        <div class="alert_info">
+            <span style="display: inline-block;
+            font-size: 15px;
+            width: 75%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;">  申购产品： {{applyResult.fundName}}</span>
+            <br> 申购金额：
+            <span style="color:#4a80ff">{{ Number(applyResult.amount)}}</span>
+            <br> 预计确认日期：{{applyResult.verifyDate}}
+        </div>
+
             <div class="bottom_btn">
                 <span @click="maskShow=!maskShow,amount=0">继续购买</span>
                 <span @click="$router.go(-1)">返回</span>

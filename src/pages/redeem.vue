@@ -26,7 +26,12 @@
         <div class="alert" v-show="maskShow">
             <p>订单提交成功，交易确认中</p>
             <div class="alert_info">
-                赎回产品：{{successInfo.fundName}}
+                <span style="display: inline-block;
+                        font-size: 15px;
+                        width: 75%;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;">赎回产品：{{successInfo.fundName}}</span>
                 <br> 赎回份额：
                 <span style="color:#4a80ff">{{successInfo.amount}}</span>
                 <br> 预计确认日期：{{successInfo.verifyDate}}

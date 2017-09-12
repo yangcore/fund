@@ -18,8 +18,9 @@ Vue.use(WechatPlugin)
 
 import qs from 'qs'
 const baseUrl = window.location.origin.indexOf('127')>=0?'https://mdev.paicaifu.com':window.location.origin;
-const loginTimeOutErrorCode = 'login_timeout_error';
 
+sessionStorage.setItem('activityId',"170912141610000020");
+sessionStorage.setItem('channalId',tool.isApp()?"170912142710000102":"170912142610000101");
 Vue.prototype.baseUrl = baseUrl;
 Vue.prototype.tool = tool;
 //公用方法
@@ -31,7 +32,7 @@ Vue.prototype.http = function (opts) {
   })
   vue.$http({
     method: opts.method,
-    url: baseUrl + opts.url,
+    url: baseUrl + opts.url+'?_='+Math.random(),
     headers: opts.headers || {},
     params: opts.params || {},
     data: opts.data || {},
@@ -120,14 +121,14 @@ Vue.prototype.post = function (opts) {
 const wx = Vue.wechat;
 const t = {
   title: "给你100万，在这里你就是百万富翁！",
-  desc: "来跟我一起参加基金模拟大赛，最高可赢188元现金！",
-  link: baseUrl+"/p/fund.html#/index",
+  desc: "来跟我一起参加基金模拟大赛，赢取2198元现金！",
+  link: baseUrl+"/p/fund.html#/index?activityId="+tool.getUrlParms('activityId')+'&channalId=170912142610000101',
   imgUrl: "https://cdn.paicaifu.com/webapp/image/inapp/fund/shareicon.jpg"
 }
 const appshare_config = {
-  shareUrl:baseUrl+"/p/fund.html#/index",
+  shareUrl:baseUrl+"/p/fund.html#/index?activityId="+tool.getUrlParms('activityId')+'&channalId=170912142610000101',
   title: "给你100万，在这里你就是百万富翁！",
-  desc: "来跟我一起参加基金模拟大赛，最高可赢188元现金！",
+  desc: "来跟我一起参加基金模拟大赛，赢取2198元现金！",
   icon: "https://cdn.paicaifu.com/webapp/image/inapp/fund/shareicon.jpg",
   shareChannel: "1,2,3,4,5"
 }
@@ -153,6 +154,21 @@ Vue.http({
   }
 })
 
+Vue.prototype.shareAdd=function(){
+  Vue.http({
+    method: 'post',
+    url: baseUrl + '/fundMsg/shareTimesAdd/v1.0?_=' + Math.random(),
+    data: qs.stringify({
+      activityId: sessionStorage.getItem('activityId')
+    })
+  }).then(function (response) {
+    if (response.data.code == '0000') {
+        console.info('分享成功');
+    }
+  })
+}
+
+
 
 const wxShare = function (t) {
   wx.onMenuShareTimeline({
@@ -160,6 +176,7 @@ const wxShare = function (t) {
     link: t.link,
     imgUrl: t.imgUrl,
     success: function () {
+      Vue.prototype.shareAdd();
     },
     cancel: function () {
     }
@@ -172,6 +189,7 @@ const wxShare = function (t) {
       type: "link",
       dataUrl: "",
       success: function () {
+        Vue.prototype.shareAdd();
       },
       cancel: function () {
       }
@@ -182,6 +200,7 @@ const wxShare = function (t) {
       link: t.link,
       imgUrl: t.imgUrl,
       success: function () {
+        Vue.prototype.shareAdd();
       },
       cancel: function () {
       }
