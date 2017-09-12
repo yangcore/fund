@@ -61,51 +61,36 @@ history.removeItem('/')
 let historyCount = history.getItem('count') * 1 || 0
 history.setItem('/index', 0)
 router.beforeEach(function (to, from, next) {
-  store.commit('updateLoadingStatus', {isLoading: true})
-  
+  store.commit('updateLoadingStatus', { isLoading: true })
   const toIndex = history.getItem(to.path)
   const fromIndex = history.getItem(from.path)
   if (toIndex) {
-    if (!fromIndex || parseInt(toIndex, 10) > parseInt(fromIndex, 10) || (toIndex === '0' && fromIndex === '0')){
-      store.commit('updateDirection', {direction: 'forward'})
+    if (!fromIndex || parseInt(toIndex, 10) > parseInt(fromIndex, 10) || (toIndex === '0' && fromIndex === '0')) {
+      store.commit('updateDirection', { direction: 'forward' })
     } else {
-      store.commit('updateDirection', {direction: 'reverse'})
+      store.commit('updateDirection', { direction: 'reverse' })
     }
   } else {
     ++historyCount
     history.setItem('count', historyCount)
     to.path !== '/' && history.setItem(to.path, historyCount)
-    store.commit('updateDirection', {direction: 'forward'})
+    store.commit('updateDirection', { direction: 'forward' })
   }
-
   //TODO
   if (/\/http/.test(to.path)) {
     let url = to.path.split('http')[1]
     window.location.href = `http${url}`
   } else {
-
-      // let timer={time:(new Date()).getTime()};
-      // Object.assign(to.params, timer);
-  //  sessionStorage.setItem('count',count++)
-    // console.info(to,from);
-    // console.info(to.params.time+to.path ,'去',from.params.time+from.path,'从');
-    // if(from.params.time<(new Date()).getTime()) {
-    //   console.info('后退');
-    //   // this.transitionName = 'vux-pop-out'
-    // }
-    //   if (to.params.time > from.params.time) {
-    //     console.info('前进');
-    //     // this.transitionName = 'vux-pop-in';
-    //     // to.params.time=0 ;
-    //   } 
-    
-    next()
+    if (to.path == "/myAccount" && from.path == "/myAccount/myOrder") {
+      store.commit('updateShowOrder', { showOrder: false });
+      setTimeout(() => {
+        next()
+      }, 200)
+    } else {
+      next()
+    }
   }
 })
-// Router.prototype.goBack = function () { 
-//   　　this.isBack = true
-//   　　window.history.go(-1)
-//   }
 router.afterEach(function (to) {
   window.scrollTo(0,0);
   store.commit('updateLoadingStatus', {isLoading: false})

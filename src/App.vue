@@ -76,7 +76,15 @@ export default {
         this.maskShow = true;
       }
     }
-  }
+  },
+   watch:{
+        $route(to,from){
+           console.info(to,from);
+           if(to.path=="/myAccount" && from.path=="/myAccount/myOrder"){
+
+           }
+        }
+    }
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="myOrder">
+    <div class="myOrder" v-show="showOrder">
         <yheader title="我的订单" fontstyle="color:black" headerstyle="background:#fff"></yheader>
         <div class="tab" style="clear:both">
             <tab :line-width="2" active-color="#4a80ff">
@@ -8,7 +8,7 @@
             </tab>
         </div>
         <div v-if="lists.length>0">
-        <div class="list" v-for="list in lists" :key="list.id" >
+        <div class="list" v-for="list in lists" :key="list.id" v-cloak>
             <flexbox>
                 <flexbox-item>
                     <div class="flex-demo">
@@ -59,16 +59,20 @@
 <script>
 import yheader from '../components/ycheader'
 import { Tab, TabItem, Flexbox, FlexboxItem } from 'vux'
+import { mapState } from 'vuex'
 export default {
     name: 'myOrder',
     data() {
         return {
-            lists:[]
+            lists:[],
+            // showOrder:false
         }
     },
-    computed: {
-
-    },
+   computed: {
+    ...mapState({
+      showOrder: state => state.vux.showOrder
+    })
+  },
     components: {
         yheader,
         Tab,
@@ -93,6 +97,9 @@ export default {
                 success: function(e) {
                     if (e.code == "0000") {
                        _this.lists=e.result.list;
+                        setTimeout(()=>{
+                        _this.$store.commit('updateShowOrder', {showOrder: true})
+                        },600);
                     }
                 }
             })

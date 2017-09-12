@@ -9,8 +9,8 @@
                 <span>”</span>
             </p>
         </div>
-        <div class="bottom">
-            <div class="content" v-for="list in lists" :key="list.id">
+        <div class="bottom" v-cloak>
+            <div class="content" v-for="list in lists" :key="list.id" v-cloak>
                 <router-link :to="{path:'/fundPortfolio/fundDetails',query:{name:list.name,type:list.type,code:list.code}}">
                 <div class="hr"></div>
                 <flexbox :gutter="0">
