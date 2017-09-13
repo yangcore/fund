@@ -8,7 +8,7 @@
             <lists :items="items" class="lists">
             </lists>
         </div>
-        <x-header :left-options="{backText: ''}">
+        <x-header :left-options="{backText: ''}" :title="fundGroupName">
             <a slot="right" @click="maskShow=!maskShow" v-if="$route.query.beforepage=='/fundPortfolio'">排行榜</a>
         </x-header>
         <x-header :left-options="{showBack: false}" v-if="$route.query.beforepage!=='/fundPortfolio'">
@@ -109,6 +109,7 @@ export default {
             profitRatio: 0,//盈亏比
             buildDate: '-- --',//成立时间
             canUseAmount: 0, // 可用余额
+            fundGroupName:'',//组合名
             obj:{ name: "资产", percent: "&nbsp;&nbsp;" },
             items:[]
         }
@@ -172,6 +173,8 @@ export default {
                             _this.profitRatio = FundUserDto.profitRatio;
                             _this.buildDate = FundUserDto.buildDate;
                             _this.canUseAmount = _this.numberComma(Number(FundUserDto.canUseAmount));
+                             _this.fundGroupName = FundUserDto.fundGroupName;
+                            
                     }
                 }
             })

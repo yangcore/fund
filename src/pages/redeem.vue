@@ -15,7 +15,8 @@
             </div>
             <div class="balance money">
                 <span>赎回份额</span>
-                <input type="number" @keyup="clearNoNum" v-model="amount">
+                 <!-- @keyup="clearNoNum" -->
+                <input type="number" v-model="amount">
             </div>
         </div>
         <p :class="buyBackground" @click="redeem">{{btnMsg}}</p>
@@ -130,6 +131,7 @@ export default {
         }
     }, watch: {
         amount: function(n, o) {
+            this.clearNoNum();
             //    console.info(n,o);
             if (this.amount == 0 || this.amount == '' || this.amount > this.canRedeem) {
                 this.buyBackground = 'buy2'

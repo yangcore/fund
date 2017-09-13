@@ -12,7 +12,8 @@
             <flexbox>
                 <flexbox-item>
                     <div class="flex-demo">
-                        <p>最新净值</p>
+                        <p v-if="$route.query.type!=='1005' && $route.query.type!=='1006'">最新净值</p>
+                        <p v-else>万分收益</p>
                         <span style="color:#4a80ff" v-cloak>{{Number(summary.value==NaN?0:summary.value)}}</span>
                     </div>
                 </flexbox-item>
@@ -33,8 +34,8 @@
                         <div v-if="$route.query.type!=='1005' && $route.query.type!=='1006'">累计净值</div>
                         <div v-else>七日年化率</div>
 
-                        <span v-if="$route.query.type!=='1005' && $route.query.type!=='1006'">{{Number(summary.totalNetValue)}}</span>
-                        <span v-else>{{Number(summary.sevenDaysRate)}}%</span>
+                        <span v-if="$route.query.type!=='1005' && $route.query.type!=='1006'" >{{Number(summary.totalNetValue)}}</span>
+                        <span v-else :class="colorType(summary.oneMonth)">{{Number(summary.sevenDaysRate)}}%</span>
                     </div>
                 </flexbox-item>
                 <flexbox-item>

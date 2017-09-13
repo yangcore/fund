@@ -209,4 +209,7 @@ a:hover {
 .balance.money .vux-number-input {
   font-size: 30px;
 }
+.myAccount .vux-header .vux-header-title > span{
+    color: black;
+}
 </style>

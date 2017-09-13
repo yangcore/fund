@@ -36,7 +36,8 @@
             </flexbox>
         </div>
         <div class="fundInfo" id="fundInfo">
-            <router-link :to="{path:'/fundPortfolio/fundDetails',query:{code:list.code,name:list.name,type:fundType,beforepage:'/fundPortfolio'}}" v-for="list in fundInfo" :key="list.id">
+            <div v-for="list in fundInfo" :key="list.id">
+            <router-link :to="{path:'/fundPortfolio/fundDetails',query:{code:list.code,name:list.name,type:fundType,beforepage:'/fundPortfolio'}}" >
                 <flexbox :gutter="0">
                     <flexbox-item :span="2/6">
                         <div class="flex-demo2" style="line-height:0;">
@@ -64,8 +65,10 @@
                     </flexbox-item>
                 </flexbox>
             </router-link>
+             <p class="uptime"> 最新净值日期：{{list.updateDate}}</p>
+             </div>
         </div>
-        <p class="uptime"> 数据更新日期：2017.7.17</p>
+       
 
         <div class="img2"></div>
         <div class="_Label">
