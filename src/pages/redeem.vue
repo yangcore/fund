@@ -15,8 +15,7 @@
             </div>
             <div class="balance money">
                 <span>赎回份额</span>
-                 <!-- @keyup="clearNoNum" -->
-                <input type="number" v-model="amount">
+                <input type="number" v-model="amount" >
             </div>
         </div>
         <p :class="buyBackground" @click="redeem">{{btnMsg}}</p>
@@ -271,6 +270,9 @@ export default {
 .bottom_btn span:nth-child(3) {
     background: #4a80ff;
     color: white;
+}
+.money{
+    position: relative !important;
 }
 </style>
 

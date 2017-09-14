@@ -14,7 +14,9 @@
                     <div class="flex-demo">
                         <p v-if="$route.query.type!=='1005' && $route.query.type!=='1006'">最新净值</p>
                         <p v-else>万分收益</p>
-                        <span style="color:#4a80ff" v-cloak>{{Number(summary.value==NaN?0:summary.value)}}</span>
+
+                        <span v-if="$route.query.type!=='1005' && $route.query.type!=='1006'" style="color:#4a80ff" v-cloak>{{Number(summary.value==NaN?0:summary.value)}}</span>
+                        <span v-else style="color:#4a80ff" v-cloak>{{Number(summary.tenThousandReturns==NaN?0:summary.tenThousandReturns)}}</span>
                     </div>
                 </flexbox-item>
                 <flexbox-item v-if="$route.query.type!=='1005' && $route.query.type!=='1006'">

@@ -56,12 +56,12 @@
                         </div>
                     </flexbox-item>
                     <flexbox-item>
-                        <div class="flex-demo black" v-if="Number(list.fundNetValue)!==0 && list.fundType!=='1005'">
+                        <div class="flex-demo black" v-if="list.fundType!=='1005' && list.fundType!=='1006'">
                             <span>{{Number(list.fundNetValue)}} </span>
                             <br>
                             <span>最新净值</span>
                         </div>
-                        <div class="flex-demo black" v-if="Number(list.thousand)!==0&& list.fundType=='1005'">
+                        <div class="flex-demo black" v-if="list.fundType=='1005' || list.fundType=='1006'">
                             <span>{{Number(list.thousand)}} </span>
                             <br>
                             <span>万份收益</span>

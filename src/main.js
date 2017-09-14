@@ -7,8 +7,8 @@ import router from './router'
 import store from './vuex/vuex'  //vuex
 import tool from './tool/tool'
 Vue.config.productionTip = true
-// import FastClick from 'fastclick'
-// FastClick.attach(document.body)
+import FastClick from 'fastclick'
+FastClick.attach(document.body)
 import { AjaxPlugin, LoadingPlugin, AlertPlugin ,numberComma} from 'vux'
 Vue.use(AjaxPlugin);
 Vue.use(LoadingPlugin);

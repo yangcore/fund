@@ -47,15 +47,12 @@
                     </flexbox-item>
                     <flexbox-item :span="1.3/6">
                         <div class="flex-demo2 lin120">
-                            {{Number(list.value==null?list.tenThousandReturns:list.value)}}
+                            {{Number((list.type=='1005' || list.type=='1006')?list.tenThousandReturns:list.value)}}
                         </div>
                     </flexbox-item>
                     <flexbox-item :span="1.3/6">
-                        <div class="flex-demo2 _ff5255 lin120" v-if="Number(list.dailyIncrease==null?list.sevenDaysRate:list.dailyIncrease)>=0">
-                            {{Number(list.dailyIncrease==null?list.sevenDaysRate:list.dailyIncrease)}}%
-                        </div>
-                        <div class="flex-demo2 _36cca4 lin120" v-if="Number(list.dailyIncrease==null?list.sevenDaysRate:list.dailyIncrease)<0">
-                            {{Number(list.dailyIncrease==null?list.sevenDaysRate:list.dailyIncrease)}}%
+                        <div class="flex-demo2  lin120" :class="colorType(Number((list.type=='1005' || list.type=='1006')?list.sevenDaysRate:list.dailyIncrease))">
+                            {{Number((list.type=='1005' || list.type=='1006')?list.sevenDaysRate:list.dailyIncrease)}}%
                         </div>
                     </flexbox-item>
                     <flexbox-item :span="1.4/6">
@@ -123,6 +120,13 @@ export default {
         this.querySector();
     },
     methods: {
+         colorType(e) {
+            if (e >= 0) {
+                return "_ff5255"
+            } else {
+                return "_36cca4"
+            }
+        },
         goSearch() {
             this.$router.push('/fundPortfolio/search');
         },
