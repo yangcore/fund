@@ -38,7 +38,7 @@
             </div>
             <div class="bottom_btn">
                 <span @click="maskShow=!maskShow,amount=''">继续赎回</span>
-                <span @click="$router.go(-1)">返回</span>
+                <span @click="$router.push('/fundPortfolio')">基金综合页</span>
                 <span @click="$router.push('/myAccount')">我的账户</span>
             </div>
         </div>

@@ -17,7 +17,7 @@
             <div class="balance money">
                 <span style="float:left">投资金额</span>
                 <group style="float:left">
-                    <x-number :width="widthinput" v-model="amount" style="float:left" :step="10000" :min='0' :max='1000000'></x-number>
+                    <x-number :width="widthInput" v-model="amount" style="float:left" :step="10000" :min='0' :max='1000000'></x-number>
                 </group>
                 <!-- <input type="number" v-model="amount"> -->
                 <span style="float:right">(拍金币)</span>
@@ -27,7 +27,7 @@
         <p class="tips">
             <span>温馨提示:</span>交易日15：00前申购，下一交易日确认金额</p>
         <ymask :maskShow="maskShow"></ymask>
-        
+
     <div class="alert" v-show="maskShow">
         <p>订单提交成功，交易确认中</p>
         <div class="alert_info">
@@ -44,7 +44,7 @@
 
             <div class="bottom_btn">
                 <span @click="maskShow=!maskShow,amount=0">继续购买</span>
-                <span @click="$router.go(-1)">返回</span>
+                <span @click="$router.push('/fundPortfolio')">基金综合页</span>
                 <span @click="$router.push('/myAccount')">我的账户</span>
             </div>
         </div>
@@ -53,7 +53,7 @@
 </template>
 <script>
 import { XHeader, XNumber, Group } from 'vux'
-import ymask from '../components/Mask'
+import Ymask from '../components/Mask'
 export default {
     name: 'apply',
     data() {
@@ -61,7 +61,7 @@ export default {
             maskShow: false,
             amount: 0,//订单金额
             fvaBalance: '',//可用余额
-            widthinput: "70px",
+            widthInput: "70px",
             btnMsg: "购买",
             applyResult: {},
             buyBackground: 'buy2',
@@ -73,7 +73,7 @@ export default {
     },
     components: {
         XHeader,
-        ymask,
+        ymask: Ymask,
         XNumber,
         Group
     },
