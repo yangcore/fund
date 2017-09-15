@@ -93,9 +93,9 @@ export default {
                                     sessionStorage.removeItem('goAppShare1');
                                     window.location.href= sessionStorage.getItem('goAppShareUrl');
                                 }else{
-                                     _this.$router.push('/index');
+                                   window.location.replace(window.location.origin+"/p/fund.html#/index");
+                                    //  _this.$router.push('/index');
                                 }
-                               
                             }
                         } else {
                             _this.loginAfterShow=true;

@@ -3,7 +3,7 @@
         <x-header :left-options="{backText: ''}" style="border-bottom:1px solid #d8d8d8">
         </x-header>
         <div class="top">
-            <p>涉及{{$route.query.sectorFundType}}产品供应链</p>
+            <p>{{$route.query.sectorFundType}}</p>
             <p>
                 <span>“</span>{{$route.query.ftTemplateDescribe}}
                 <span>”</span>

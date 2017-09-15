@@ -37,7 +37,7 @@
             </div>
         </div>
         <p class="tips">*本活动所有计价单位均为拍财富虚拟货币拍金币</p>
-        <div v-if="fundList.length>0" style="padding-bottom:100px">
+        <div v-if="fundList.length>0" >
         <div class="card" v-for="list in fundList" :key="list.id" v-cloak>
             <h1>
                 <span>{{list.fundName}}</span> <span>{{list.fundCode}}</span>

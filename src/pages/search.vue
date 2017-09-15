@@ -1,7 +1,7 @@
 <template>
     <div class="fundPortfolio">
-        <x-header :left-options="{backText: ''}">set empty back text
-            <a slot="right" @click="$router.go(-1)">关闭</a>
+        <x-header :left-options="{backText: ''}">
+            <!-- <a slot="right" @click="$router.go(-1)">关闭</a> -->
         </x-header>
         <div class="search">
             <i class="iconfont close" v-show="value==''?false:true" @click="clear">&#xe6da;</i>

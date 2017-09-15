@@ -133,7 +133,7 @@ export default {
         onItemClick(index) {
             document.querySelectorAll('#fundInfo')[0].scrollTop = 0;
             if (index == 3) {
-                this.title.title2 = "每万份收益";
+                this.title.title2 = "万份收益";
                 this.title.title3 = "七日年化";
             } else {
                 this.title.title2 = "单位净值";
