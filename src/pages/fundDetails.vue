@@ -26,7 +26,7 @@
                     </div>
                 </flexbox-item>
             </flexbox>
-            <p class="uptime" v-cloak>数据更新日期：{{summary.updateDate}}</p>
+            <p class="uptime" v-cloak>最新净值日期：{{summary.updateDate}}</p>
         </div>
 
         <div class="_Label">

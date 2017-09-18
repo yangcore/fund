@@ -25,7 +25,7 @@
         </div>
         <p :class="buyBackground" @click="apply">{{btnMsg}}</p>
         <p class="tips">
-            <span>温馨提示:</span>交易日15：00前申购，下一交易日确认金额</p>
+            <span>温馨提示:</span>交易日15：00前申购，下一交易日确认份额</p>
         <ymask :maskShow="maskShow"></ymask>
 
     <div class="alert" v-show="maskShow">
