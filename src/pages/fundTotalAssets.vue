@@ -36,7 +36,7 @@
                 </flexbox>
             </div>
         </div>
-        <p class="tips">*本活动所有计价单位均为拍财富虚拟货币拍金币</p>
+        <p class="tips">*本活动所有计价单位均为拍财富虚拟货币拍金币，计算过程四舍五入保留两位小数，所产生差异计入基金资产</p>
         <div v-if="fundList.length>0" >
         <div class="card" v-for="list in fundList" :key="list.id" v-cloak>
             <h1>

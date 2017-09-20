@@ -61,6 +61,7 @@
                 </div>
                 <div class="partingLine"></div>
             </div>
+          <p class="tips">*计算过程四舍五入保留两位小数，所产生差异计入基金资产</p>
         </div>
         <div class="box2">
             <group>
@@ -174,7 +175,7 @@ export default {
                             _this.buildDate = FundUserDto.buildDate;
                             _this.canUseAmount = _this.numberComma(Number(FundUserDto.canUseAmount));
                              _this.fundGroupName = FundUserDto.fundGroupName;
-                            
+
                     }
                 }
             })
@@ -187,5 +188,11 @@ export default {
 <style lang="less" scoped>
 @import '../assets/font.less';
 @import '../assets/css/myAccount.less';
+.tips{
+  font-size: 22px;
+  color: #888888;
+  padding:  10px 0 30px 20px;
+  background: white;
+}
 </style>
 
