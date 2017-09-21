@@ -6,10 +6,10 @@
      </x-header>
         <div class="content">
             <p class="startime">
-                2017.8.24-9.34
+                9.22-10.31
             </p>
             <!-- 立即参与 -->
-            <div href="javascript:;" class="play" @click="intUser"></div> 
+            <div href="javascript:;" class="play" @click="intUser"></div>
         </div>
         <div class="content1">
             <p class="rule_btn" @click="maskShow=!maskShow">活动规则>></p>
