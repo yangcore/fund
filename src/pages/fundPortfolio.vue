@@ -63,9 +63,8 @@
                 </flexbox>
             </router-link>
              </div>
-             <p class="uptime"> 最新净值日期：{{ upTime }}</p>
         </div>
-
+        <p class="uptime"> 最新净值日期：{{ upTime }}</p>
 
         <div class="img2"></div>
         <div class="_Label">
