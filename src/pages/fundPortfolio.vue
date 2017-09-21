@@ -62,10 +62,10 @@
                     </flexbox-item>
                 </flexbox>
             </router-link>
-             <p class="uptime"> 最新净值日期：{{list.updateDate}}</p>
              </div>
+             <p class="uptime"> 最新净值日期：{{ upTime }}</p>
         </div>
-       
+
 
         <div class="img2"></div>
         <div class="_Label">
@@ -102,7 +102,8 @@ export default {
             },
             fundInfo: [],
             fundType: '1000',//基金类型
-            sectorList: []
+            sectorList: [],
+            upTime:''
         }
     },
     computed: {
@@ -172,6 +173,7 @@ export default {
                 success: function(e) {
                     if (e.code == "0000") {
                         _this.fundInfo = e.result.list;
+                        _this.upTime=e.result.list[0].updateDate;
                     }
                 }
             })
