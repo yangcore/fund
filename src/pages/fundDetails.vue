@@ -22,7 +22,7 @@
                 <flexbox-item v-if="$route.query.type!=='1005' && $route.query.type!=='1006'">
                     <div class="flex-demo">
                         <p>日涨跌幅</p>
-                        <span v-if="summary.dailyIncrease>=0" :class="colorType(summary.dailyIncrease==NaN?0:summary.dailyIncrease)" v-cloak>{{Number(summary.dailyIncrease==NaN?0:summary.dailyIncrease)}}%</span>
+                        <span  :class="colorType(summary.dailyIncrease==NaN?0:summary.dailyIncrease)" v-cloak>{{Number(summary.dailyIncrease==NaN?0:summary.dailyIncrease)}}%</span>
                     </div>
                 </flexbox-item>
             </flexbox>

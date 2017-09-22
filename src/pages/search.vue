@@ -144,6 +144,7 @@ export default {
 }
 .more{
     text-align:center;font-size:26px;color: #313131;
+    padding: 20px;
 }
 </style>
 
