@@ -16,14 +16,14 @@
                         <div class="flex-demo">
                             <span>持仓份额</span>
                             <br>
-                            <span>{{numberComma(Number(demandInfo.InvestAmount))}}</span>
+                            <span>{{demandInfo.InvestAmount=="计算中"?'计算中':numberComma(Number(demandInfo.InvestAmount))}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>万份收益</span>
                             <br>
-                            <span>{{numberComma(Number(demandInfo.thousandReturns))}}</span>
+                            <span>{{demandInfo.thousandReturns=="计算中"?'计算中':numberComma(Number(demandInfo.thousandReturns))}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
@@ -40,14 +40,14 @@
                         <div class="flex-demo">
                             <span>昨日收益</span>
                             <br>
-                           <span>{{numberComma(Number(demandInfo.yestardayAgainst))}}</span>
+                           <span>{{demandInfo.yestardayAgainst=="计算中"?'计算中':numberComma(Number(demandInfo.yestardayAgainst))}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>
                         <div class="flex-demo">
                             <span>总收益</span>
                             <br>
-                             <span>{{numberComma(Number(demandInfo.demandAgainst))}}</span>
+                             <span>{{(!demandInfo.demandAgainst && demandInfo.demandAgainst!==0)?'计算中':numberComma(Number(demandInfo.demandAgainst))}}</span>
                         </div>
                     </flexbox-item>
                     <flexbox-item>

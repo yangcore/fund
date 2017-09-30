@@ -78,7 +78,8 @@
                 <flexbox>
                     <flexbox-item>
                         <div class="flex-demo black">
-                            <span :class="colorType(list.yestardayAgainst)">{{Number(list.yestardayAgainst)}}</span>
+                          <span v-if="list.yestardayAgainst=='计算中'">计算中</span>
+                            <span v-else :class="colorType(list.yestardayAgainst)">{{Number(list.yestardayAgainst)}}</span>
                             <br>
                             <span>昨日收益</span>
                         </div>
