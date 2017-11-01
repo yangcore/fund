@@ -34,8 +34,7 @@ Vue.prototype.http = function (opts) {
     url: baseUrl + opts.url+'?_='+Math.random(),
     headers: opts.headers || {},
     params: opts.params || {},
-    data: opts.data || {},
-    headers: opts.headers || {},
+    data: opts.data || {}
   }).then(function (response) {
     // console.info(response, "获取的数据");
     vue.$vux.loading.hide();
