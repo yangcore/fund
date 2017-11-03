@@ -5,9 +5,6 @@
          <span @click="intUser('myAccount')"  slot="right">我的账户</span>
      </x-header>
         <div class="content">
-            <p class="startime">
-                9.22-10.31
-            </p>
             <!-- 立即参与 -->
             <div href="javascript:;" class="play" @click="intUser"></div>
         </div>
