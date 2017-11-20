@@ -1,5 +1,5 @@
 # fund
-
+[![Build Status](https://travis-ci.org/yangcore/fund?branch=dev1)](https://travis-ci.org/yangcore/fund)
 > A Vue.js project
 
 ## Build Setup
