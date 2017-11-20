@@ -8,3 +8,17 @@ before_script:
   - npm install -g 
 script: 
   - npm run build
+after_script:
+  - cd ./dist
+  - git init
+  - git config user.name "yangcore"
+  - git config user.email "943134861@qq.com"
+  - git add .
+  - git commit -m "Update docs"
+  - git push --force --quiet "https://${Git_Token}@${GH_REF}" master:master
+branches:
+  only:
+    - dev1
+env:
+ global:
+   - GH_REF: git@github.com:yangcore/fund.github.io.git
