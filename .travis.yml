@@ -21,4 +21,4 @@ branches:
     - dev1
 env:
  global:
-   - GH_REF: git@github.com:yangcore/fund.github.io.git
+   - GH_REF: github.com:yangcore/fund.github.io.git
