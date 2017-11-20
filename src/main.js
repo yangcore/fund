@@ -17,7 +17,17 @@ import { WechatPlugin } from 'vux'
 Vue.use(WechatPlugin)
 
 import qs from 'qs'
-const baseUrl = window.location.origin.indexOf('127')>=0?'https://mtest.paicaifu.com':window.location.origin;
+// const baseUrl = window.location.origin.indexOf('127')>=0?'https://mtest.paicaifu.com':window.location.origin;
+const baseUrl = (function(){
+  if(window.location.origin.indexOf('127')>=0){
+    return 'https://mtest.paicaifu.com'
+  }else if(window.location.origin.indexOf('github')>=0){
+    return 'https://m.paicaifu.com'
+  }else{
+    return window.location.origin
+  }
+})()
+
 sessionStorage.setItem('activityId',"170912141610000020");
 sessionStorage.setItem('channalId',tool.isApp()?"170912142710000102":"170912142610000101");
 Vue.prototype.baseUrl = baseUrl;
